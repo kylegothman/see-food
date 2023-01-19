@@ -1,6 +1,7 @@
 import React from 'react';
+import { Logo } from './Logo';
 import '../App.css';
-import '../assets/logo.png'
+
 import {
     Box,
     Button,
@@ -15,7 +16,9 @@ function Navbar() {
         <div className="">
           <Flex minWidth='max-content' alignItems='center' gap='2'>
             <Box p='10'>
-              <img src='../assets/logo.png' alt='logo'></img>
+                <a href='/'>
+                    <Logo />
+                </a>
             </Box>
             <Spacer />
             <ButtonGroup p='10' gap='2'>
