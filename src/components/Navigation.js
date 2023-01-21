@@ -1,10 +1,10 @@
 import React from 'react';
-import { Logo } from './Logo';
+import { SeeFoodLogo } from './logo/Logo';
 import '../App.css';
+import NavButton from './ui/button/Button';
 
 import {
     Box,
-    Button,
     ButtonGroup,
     Flex,
     Spacer
@@ -13,20 +13,21 @@ import {
 
 function Navbar() {
     return (
-        <div className="">
+        <Box bg='orange.50'>
           <Flex minWidth='max-content' alignItems='center' gap='2'>
             <Box p='10'>
                 <a href='/'>
-                    <Logo />
+                    <SeeFoodLogo />
                 </a>
             </Box>
             <Spacer />
             <ButtonGroup p='10' gap='2'>
-              <Button colorScheme='teal' variant='outline' _hover={{background: 'teal', color:'white'}}>Sign Up</Button>
-              <Button colorScheme='teal' variant='outline' _hover={{background: 'teal', color:'white'}}>Log in</Button>
+              <NavButton name='Sign Up'></NavButton>
+              <NavButton name='Log In'></NavButton>
             </ButtonGroup>
           </Flex>
-        </div>
+        </Box>
     )    
 }
 export default Navbar;
+

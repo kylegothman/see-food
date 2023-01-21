@@ -11,11 +11,18 @@
   font-weight: normal;
   src: local('BungeeShade'), url('./assets/BungeeShade-Regular.ttf') format('ttf');
 }
+.navBar {
+  background-color: #E5E1D4;
+}
 
-  .logo {
+.logo {
     font-family: 'From Cartoon Blocks';
     padding: 25px;
     color: black;
     letter-spacing: .2vh;
-  }
+}
+
+html {
+  background-color: #FFFFF0;
+}
 
