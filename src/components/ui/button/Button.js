@@ -4,7 +4,7 @@ import './button.css';
 
 function NavButton({name}) {
     return (
-        <button>{ name }</button>
+        <button className='button'>{ name }</button>
     )
 }
 
