@@ -16,16 +16,103 @@
 .gs {
   margin: 2em 0 5em 0;
 }
-  
 
-  .card:hover {
-    transform: translateY(-4px) translateX(-2px);
-    background-color: #FCD035;
-    box-shadow: 2px 5px 0 0 black;
-  };
+.card:hover {
+  transform: translateY(-4px) translateX(-2px);
+  background-color: #FCD035;
+  box-shadow: 2px 5px 0 0 black;
+}
+
+.card:hover input {
+  border: 1px solid black;
+}
   
-  .card:active {
-    transform: translateY(2px) translateX(1px);
-    color: black;
-    box-shadow: 0 0 0 0 black;
-  };
+.card:active {
+  transform: translateY(2px) translateX(1px);
+  color: black;
+  box-shadow: 0 0 0 0 black;
+}
+
+.inputGroup {
+  margin: 1em 0 1em 0;
+  max-width: 100%;
+  position: relative;
+}
+
+.emailInput {
+  background-color: #FFFFF0;
+  color: black;
+  border-radius: 10em;
+  font-size: 100%;
+  padding: 1em 2em;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 0 0 black;
+  width: 100%;
+}
+
+.emailInput:hover {
+  transform: translateY(-4px) translateX(-2px);
+  border: 1px solid black;
+  box-shadow: 2px 5px 0 0 black;
+  background-color: #FFFFF0;
+}
+  
+.emailInput:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+  background-color: #FFFFF0;
+}
+
+.emailInput:focus {
+  transform: translateY(-4px) translateX(-2px);
+  border: 1px solid black;
+  box-shadow: 2px 5px 0 0 black;
+}
+input:hover label {
+  transform: translateY(-4px) translateX(-2px);
+}
+
+.inputGroup label {
+  font-size: 100%;
+  position: absolute;
+  left: 0;
+  padding: 0.8em;
+  margin-left: 0.9em;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  color: rgb(100, 100, 100);
+}
+
+input.emailInput:focus label.emailLabel {
+  transform: translateY(-105%) scale(.9);
+  margin: 0em;
+  margin-left: 1.1em;
+  padding: 0.3em;
+  /* background-color: #FFFFF0; */
+}
+
+input.emailInput + label::before {
+  color:black;
+  margin: 0em;
+}
+
+
+input.emailInput:valid label {
+  transform: translateY(-105%) scale(.9);
+  margin: 0em;
+  margin-left: 1.1em;
+  padding: 0.3em;
+}
+
+.inputGroup :is(input:focus)~label {
+  transform: translateY(-105%) scale(.9);
+  margin: 0em;
+  margin-left: 1.1em;
+  padding: 0.3em;
+}
+
+
+
+  

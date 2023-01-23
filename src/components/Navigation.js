@@ -2,6 +2,7 @@ import React from 'react';
 import { SeeFoodLogo } from './logo/Logo';
 import '../App.css';
 import NavButton from './ui/button/Button';
+import SignInButton from './ui/button/SignInButton';
 
 import {
     Box,
@@ -23,7 +24,7 @@ function Navbar() {
             <Spacer />
             <ButtonGroup p='5' gap='2'>
               <NavButton name='Sign Up'></NavButton>
-              <NavButton name='Log In'></NavButton>
+              <SignInButton />
             </ButtonGroup>
           </Flex>
         </Box>

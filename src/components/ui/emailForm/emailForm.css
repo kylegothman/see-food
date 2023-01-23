@@ -54,9 +54,6 @@ input:focus {
   /* background-color: #FFFFF0; */
 }
 
-.inputGroup :is(input:hover)~label {
-  /* transform: translateY(-4px) translateX(-2px); */
-}
 
 .inputGroup :is(input:focus) {
   outline: transparent;

@@ -1,11 +1,11 @@
 import React from 'react';
-import './emailForm.css';
+import '../../signInCard/signInCard.css';
 
 
 export function EmailForm() {
     return (
         <div className="inputGroup">
-            <input type="text" name="name" required="" autoComplete="off"/>
+            <input className="emailInput" type="text" name="name" required="" autoComplete="off"/>
             <label htmlFor="email">email</label>
         </div>
     )
