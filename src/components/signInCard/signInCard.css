@@ -23,6 +23,12 @@
   box-shadow: 2px 5px 0 0 black;
 }
 
+.card:focus-within {
+  transform: translateY(-4px) translateX(-2px);
+  background-color: #FCD035;
+  box-shadow: 2px 5px 0 0 black;
+}
+
 .card:hover input {
   border: 1px solid black;
 }
@@ -75,9 +81,8 @@
   box-shadow: 2px 5px 0 0 black;
 }
 
-input.email__input:valid {
+input.email__input:valid ~input{
   transform: translateY(-4px) translateX(-2px);
-  border: 1px solid black;
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
 }
@@ -96,15 +101,14 @@ input:hover ~label {
   transition: all 0.3s ease;
   color: #FFFFF0;
 }
-
+/* 
 input.email__input:focus label.email__label {
   transform: translateY(-108%) scale(.9);
   margin: 0em;
   margin-left: 1.5em;
   padding: 0.3em;
   color: rgb(100, 100, 100);
-  /* background-color: #FFFFF0; */
-}
+} */
 
 input.email__input:valid ~label {
   transform: translateY(-105%) scale(.9);
@@ -114,7 +118,7 @@ input.email__input:valid ~label {
   color: rgb(100, 100, 100);
 }
 
-.email :is(input:focus)~label {
+.email :is(input:focus) ~label {
   transform: translateY(-105%) scale(.9);
   margin: 0em;
   margin-left: 1.5em;
@@ -158,7 +162,14 @@ input.email__input:valid ~label {
   background-color: #FFFFF0;
 }
 
-.pw__input:focus {
+.pw__input:focus, 
+.email__input:focus {
+  transform: translateY(-4px) translateX(-2px);
+  border: 1px solid black;
+  box-shadow: 2px 5px 0 0 black;
+}
+
+div.card :is(input.pw__input:valid) {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
@@ -184,15 +195,6 @@ input:hover ~label {
   pointer-events: none;
   transition: all 0.3s ease;
   color: #FFFFF0;
-}
-
-input.pw__input:focus label.pw__label {
-  transform: translateY(-105%) scale(.9);
-  margin: 0em;
-  margin-left: 1.5em;
-  padding: 0.3em;
-  color: rgb(100, 100, 100);
-  /* background-color: #FFFFF0; */
 }
 
 input.pw__input:valid ~label {
