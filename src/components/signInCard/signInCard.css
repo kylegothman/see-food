@@ -70,7 +70,15 @@
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
 }
-input:hover label {
+
+input.emailInput:valid {
+  transform: translateY(-4px) translateX(-2px);
+  border: 1px solid black;
+  border: 1px solid black;
+  box-shadow: 2px 5px 0 0 black;
+}
+
+input:hover ~label {
   transform: translateY(-4px) translateX(-2px);
 }
 
@@ -99,7 +107,7 @@ input.emailInput + label::before {
 }
 
 
-input.emailInput:valid label {
+input.emailInput:valid ~label {
   transform: translateY(-105%) scale(.9);
   margin: 0em;
   margin-left: 1.1em;
