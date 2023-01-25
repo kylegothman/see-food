@@ -7,12 +7,16 @@ export function SignInCard() {
     return (
         <Center bg='yellow.50'>
         <div className='card'>
-            <div  className="gs">
+            <div  className="header">
                 <h2>Get Started</h2>
             </div>
-            <div className="inputGroup">
-                <input className="emailInput" type="text" name="name" autoComplete="off" required />
-                <label className="emailLabel" htmlFor="email">email</label>
+            <div className="email">
+                <input className="email__input" type="text" name="name" autoComplete="off" required />
+                <label className="email__label" htmlFor="email">email</label>
+            </div>
+            <div className="pw">
+                <input className="pw__input" type="text" name="name" autoComplete="off" required />
+                <label className="pw__label" htmlFor="email">password</label>
             </div>
         </div>
         </Center>

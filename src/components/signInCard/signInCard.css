@@ -13,7 +13,7 @@
   box-shadow: 0 0 0 0 black;
 }
 
-.gs {
+.header {
   margin: 2em 0 5em 0;
 }
 
@@ -26,6 +26,10 @@
 .card:hover input {
   border: 1px solid black;
 }
+
+.card:hover label {
+  color: rgb(100, 100, 100);
+}
   
 .card:active {
   transform: translateY(2px) translateX(1px);
@@ -33,13 +37,13 @@
   box-shadow: 0 0 0 0 black;
 }
 
-.inputGroup {
+.email {
   margin: 1em 0 1em 0;
   max-width: 100%;
   position: relative;
 }
 
-.emailInput {
+.email__input {
   background-color: #FFFFF0;
   color: black;
   border-radius: 10em;
@@ -52,26 +56,26 @@
   width: 100%;
 }
 
-.emailInput:hover {
+.email__input:hover {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
   background-color: #FFFFF0;
 }
   
-.emailInput:active {
+.email__input:active {
   transform: translateY(2px) translateX(1px);
   box-shadow: 0 0 0 0 black;
   background-color: #FFFFF0;
 }
 
-.emailInput:focus {
+.email__input:focus {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
 }
 
-input.emailInput:valid {
+input.email__input:valid {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   border: 1px solid black;
@@ -82,45 +86,130 @@ input:hover ~label {
   transform: translateY(-4px) translateX(-2px);
 }
 
-.inputGroup label {
+.email label {
   font-size: 100%;
   position: absolute;
   left: 0;
-  padding: 0.8em;
+  padding: 0.9em;
   margin-left: 0.9em;
   pointer-events: none;
   transition: all 0.3s ease;
-  color: rgb(100, 100, 100);
+  color: #FFFFF0;
 }
 
-input.emailInput:focus label.emailLabel {
-  transform: translateY(-105%) scale(.9);
+input.email__input:focus label.email__label {
+  transform: translateY(-108%) scale(.9);
   margin: 0em;
-  margin-left: 1.1em;
+  margin-left: 1.5em;
   padding: 0.3em;
+  color: rgb(100, 100, 100);
   /* background-color: #FFFFF0; */
 }
 
-input.emailInput + label::before {
-  color:black;
-  margin: 0em;
-}
-
-
-input.emailInput:valid ~label {
+input.email__input:valid ~label {
   transform: translateY(-105%) scale(.9);
   margin: 0em;
-  margin-left: 1.1em;
+  margin-left: 1.5em;
   padding: 0.3em;
+  color: rgb(100, 100, 100);
 }
 
-.inputGroup :is(input:focus)~label {
+.email :is(input:focus)~label {
   transform: translateY(-105%) scale(.9);
   margin: 0em;
-  margin-left: 1.1em;
+  margin-left: 1.5em;
   padding: 0.3em;
+  color: rgb(100, 100, 100);
 }
 
+
+/*//////////// pw ////////////*/
+
+.pw {
+  padding-top: 40px;
+  margin: 1em 0 1em 0;
+  max-width: 100%;
+  position: relative;
+}
+
+.pw__input {
+  background-color: #FFFFF0;
+  color: black;
+  border-radius: 10em;
+  font-size: 100%;
+  padding: 1em 2em;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 0 0 0 black;
+  width: 100%;
+}
+
+.pw__input:hover {
+  transform: translateY(-4px) translateX(-2px);
+  border: 1px solid black;
+  box-shadow: 2px 5px 0 0 black;
+  background-color: #FFFFF0;
+}
+  
+.pw__input:active {
+  transform: translateY(2px) translateX(1px);
+  box-shadow: 0 0 0 0 black;
+  background-color: #FFFFF0;
+}
+
+.pw__input:focus {
+  transform: translateY(-4px) translateX(-2px);
+  border: 1px solid black;
+  box-shadow: 2px 5px 0 0 black;
+}
+
+input.pw__input:valid {
+  transform: translateY(-4px) translateX(-2px);
+  border: 1px solid black;
+  border: 1px solid black;
+  box-shadow: 2px 5px 0 0 black;
+}
+
+input:hover ~label {
+  transform: translateY(-4px) translateX(-2px);
+}
+
+.pw label {
+  font-size: 100%;
+  position: absolute;
+  left: 0;
+  padding: 0.9em;
+  margin-left: 0.9em;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  color: #FFFFF0;
+}
+
+input.pw__input:focus label.pw__label {
+  transform: translateY(-105%) scale(.9);
+  margin: 0em;
+  margin-left: 1.5em;
+  padding: 0.3em;
+  color: rgb(100, 100, 100);
+  /* background-color: #FFFFF0; */
+}
+
+input.pw__input:valid ~label {
+  transform: translateY(-105%) scale(.9);
+  margin: 0em;
+  margin-left: 1.5em;
+  padding: 0.3em;
+  color: rgb(100, 100, 100);
+}
+
+.pw :is(input:focus)~label {
+  transform: translateY(-105%) scale(.9);
+  margin: 0em;
+  margin-left: 1.5em;
+  padding: 0.3em;
+  color: rgb(100, 100, 100);
+}
 
 
   
