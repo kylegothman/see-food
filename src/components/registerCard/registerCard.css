@@ -14,7 +14,9 @@
 }
 
 .header {
-  margin: 2em 0 5em 0;
+  margin: 1em 0 3em 0;
+  color: rgb(100, 100, 100);
+  font-size: 1.5em;
 }
 
 .card:hover {
@@ -36,21 +38,16 @@
 .card:hover label {
   color: rgb(100, 100, 100);
 }
-  
-.card:active {
-  transform: translateY(2px) translateX(1px);
-  color: black;
-  box-shadow: 0 0 0 0 black;
-}
 
-.email {
+.username {
   margin: 1em 0 1em 0;
   max-width: 100%;
   position: relative;
 }
 
-.email__input {
+.username__input {
   background-color: #FFFFF0;
+  border: 1px solid black;
   color: black;
   border-radius: 10em;
   font-size: 100%;
@@ -62,26 +59,26 @@
   width: 100%;
 }
 
-.email__input:hover {
+.username__input:hover {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
   background-color: #FFFFF0;
 }
   
-.email__input:active {
+.username__input:active {
   transform: translateY(2px) translateX(1px);
   box-shadow: 0 0 0 0 black;
   background-color: #FFFFF0;
 }
 
-.email__input:focus {
+.username__input:focus {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
 }
 
-input.email__input:valid ~input{
+input.username__input:valid {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
@@ -91,7 +88,7 @@ input:hover ~label {
   transform: translateY(-4px) translateX(-2px);
 }
 
-.email label {
+.username label {
   font-size: 100%;
   position: absolute;
   left: 0;
@@ -99,7 +96,7 @@ input:hover ~label {
   margin-left: 0.9em;
   pointer-events: none;
   transition: all 0.3s ease;
-  color: #FFFFF0;
+  color: rgb(100, 100, 100);
 }
 /* 
 input.email__input:focus label.email__label {
@@ -110,7 +107,7 @@ input.email__input:focus label.email__label {
   color: rgb(100, 100, 100);
 } */
 
-input.email__input:valid ~label {
+input.username__input:valid ~label {
   transform: translateY(-105%) scale(.9);
   margin: 0em;
   margin-left: 1.5em;
@@ -118,7 +115,7 @@ input.email__input:valid ~label {
   color: rgb(100, 100, 100);
 }
 
-.email :is(input:focus) ~label {
+.username :is(input:focus) ~label {
   transform: translateY(-105%) scale(.9);
   margin: 0em;
   margin-left: 1.5em;
@@ -139,6 +136,7 @@ input.email__input:valid ~label {
 .pw__input {
   background-color: #FFFFF0;
   color: black;
+  border: 1px solid black;
   border-radius: 10em;
   font-size: 100%;
   padding: 1em 2em;
@@ -162,8 +160,7 @@ input.email__input:valid ~label {
   background-color: #FFFFF0;
 }
 
-.pw__input:focus, 
-.email__input:focus {
+.pw__input:focus {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
@@ -194,7 +191,7 @@ input:hover ~label {
   margin-left: 0.9em;
   pointer-events: none;
   transition: all 0.3s ease;
-  color: #FFFFF0;
+  color: rgb(100, 100, 100);
 }
 
 input.pw__input:valid ~label {

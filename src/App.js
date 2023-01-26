@@ -1,15 +1,14 @@
 import React from 'react';
 import Navbar from './components/Navigation.js';
-import { SignInCard } from './components/signInCard/SignInCard'
+import { RegisterCard } from './components/registerCard/RegisterCard'
 
 
-function App() {
+export default function App() {
   return (
     <>
     <Navbar />
-    <SignInCard />
+    <RegisterCard />
     </>
   )
 }
 
-export default App;

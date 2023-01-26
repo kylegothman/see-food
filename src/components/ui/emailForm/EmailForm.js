@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../signInCard/signInCard.css';
+import '../../registerCard/registerCard.css';
 
 
 export function EmailForm() {
