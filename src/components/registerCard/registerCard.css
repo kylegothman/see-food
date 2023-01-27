@@ -1,7 +1,4 @@
 .card {
-  width: 390px;
-  height: 454px;
-  background-color: #FFFFF0;
   text-align: center;
   color: black;
   border-radius: 0;
@@ -14,7 +11,7 @@
 }
 
 .header {
-  margin: 1em 0 3em 0;
+  margin: 1em 0 2em 0;
   color: rgb(100, 100, 100);
   font-size: 1.5em;
 }
@@ -40,7 +37,6 @@
 }
 
 .username {
-  margin: 1em 0 1em 0;
   max-width: 100%;
   position: relative;
 }
@@ -98,17 +94,9 @@ input:hover ~label {
   transition: all 0.3s ease;
   color: rgb(100, 100, 100);
 }
-/* 
-input.email__input:focus label.email__label {
-  transform: translateY(-108%) scale(.9);
-  margin: 0em;
-  margin-left: 1.5em;
-  padding: 0.3em;
-  color: rgb(100, 100, 100);
-} */
 
 input.username__input:valid ~label {
-  transform: translateY(-105%) scale(.9);
+  transform: translateY(-104%) scale(.9);
   margin: 0em;
   margin-left: 1.5em;
   padding: 0.3em;
@@ -116,7 +104,7 @@ input.username__input:valid ~label {
 }
 
 .username :is(input:focus) ~label {
-  transform: translateY(-105%) scale(.9);
+  transform: translateY(-104%) scale(.9);
   margin: 0em;
   margin-left: 1.5em;
   padding: 0.3em;

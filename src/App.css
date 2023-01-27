@@ -12,7 +12,7 @@
   src: local('BungeeShade'), url('./assets/BungeeShade-Regular.ttf') format('ttf');
 }
 .navBar {
-  background-color: #E5E1D4;
+  background-color: #FFFFF0;
 }
 
 .logo {

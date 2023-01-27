@@ -14,15 +14,15 @@ import {
 
 function Navbar() {
     return (
-        <Box bg='orange.50'>
+        <Box pt='1' bg='yellow.50'>
           <Flex minWidth='max-content' alignItems='center' gap='2'>
-            <Box p='5'>
+            <Box>
                 <a href='/'>
                     <SeeFoodLogo />
                 </a>
             </Box>
             <Spacer />
-            <ButtonGroup p='5' gap='2'>
+            <ButtonGroup pr='5' gap='2'>
               <NavButton name='Sign Up'></NavButton>
               <SignInButton />
             </ButtonGroup>
