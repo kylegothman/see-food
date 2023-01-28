@@ -18,32 +18,19 @@
   font-size: 1.5em;
 }
 
-.card:hover {
-  transform: translateY(-4px) translateX(-2px);
-  background-color: #FCD035;
-  box-shadow: 2px 5px 0 0 black;
-}
-
 .card:focus-within {
   transform: translateY(-4px) translateX(-2px);
   background-color: #FCD035;
   box-shadow: 2px 5px 0 0 black;
 }
-
-.card:hover input {
-  border: 1px solid black;
-}
-
-.card:hover label {
-  color: rgb(100, 100, 100);
-}
-
-.username {
+.name {
+  padding-top: 10px;
+  margin: 1em 0 1em 0;
   max-width: 100%;
   position: relative;
 }
 
-.username__input {
+.name__input {
   background-color: #FFFFF0;
   border: 1px solid black;
   color: black;
@@ -57,36 +44,36 @@
   width: 100%;
 }
 
-.username__input:hover {
+.name__input:hover {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
   background-color: #FFFFF0;
 }
   
-.username__input:active {
+.name__input:active {
   transform: translateY(2px) translateX(1px);
   box-shadow: 0 0 0 0 black;
   background-color: #FFFFF0;
 }
 
-.username__input:focus {
+.name__input:focus {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
 }
 
-input.username__input:valid {
+input.name__input:valid {
   transform: translateY(-4px) translateX(-2px);
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
 }
 
-input:hover ~label {
+input.name__input:hover ~label {
   transform: translateY(-4px) translateX(-2px);
 }
 
-.username label {
+.name__label {
   font-size: 100%;
   position: absolute;
   left: 0;
@@ -97,7 +84,7 @@ input:hover ~label {
   color: rgb(100, 100, 100);
 }
 
-input.username__input:valid ~label {
+input.name__input:valid ~label {
   transform: translateY(-104%) scale(.9);
   margin: 0em;
   margin-left: 1.5em;
@@ -105,7 +92,7 @@ input.username__input:valid ~label {
   color: rgb(100, 100, 100);
 }
 
-.username :is(input:focus) ~label {
+.name :is(input:focus) ~label {
   transform: translateY(-104%) scale(.9);
   margin: 0em;
   margin-left: 1.5em;
@@ -117,7 +104,7 @@ input.username__input:valid ~label {
 /*//////////// pw ////////////*/
 
 .pw {
-  padding-top: 40px;
+  padding-top: 20px;
   margin: 1em 0 1em 0;
   max-width: 100%;
   position: relative;
@@ -168,12 +155,7 @@ input.pw__input:valid {
   border: 1px solid black;
   box-shadow: 2px 5px 0 0 black;
 }
-
-input:hover ~label {
-  transform: translateY(-4px) translateX(-2px);
-}
-
-.pw label {
+.pw__label {
   font-size: 100%;
   position: absolute;
   left: 0;
@@ -182,6 +164,9 @@ input:hover ~label {
   pointer-events: none;
   transition: all 0.3s ease;
   color: rgb(100, 100, 100);
+}
+input:hover ~label {
+  transform: translateY(-4px) translateX(-2px);
 }
 
 input.pw__input:valid ~label {

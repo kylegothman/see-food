@@ -7,13 +7,17 @@ import NavButton from '../ui/button/Button';
 export function RegisterCard() {
     return (
         <Center bg='yellow.50'>
-        <Box className='card'>
+        <Box className='card'
+                       _hover={{ 
+                        transform: 'translateY(-4px) translateX(-2px)',
+                        backgroundColor: '#FCD035',
+                        shadow: '2px 5px 0 0 black' }}>
             <Box className="header">
                 <h2>Sign Up</h2>
             </Box>
-            <Box className="username">
-                <input className="username__input" type="text" name="name" autoComplete="off" required />
-                <label className="username__label" htmlFor="username">name</label>
+            <Box className="name">
+                <input className="name__input" type="text" name="name" autoComplete="off" required />
+                <label className="name__label" htmlFor="name">name</label>
             </Box>
             <Box className="pw">
                 <input className="pw__input" type="text" name="name" autoComplete="off" required />
@@ -23,7 +27,7 @@ export function RegisterCard() {
                 <input className="pw__input" type="text" name="name" autoComplete="off" required />
                 <label className="pw__label" htmlFor="password">password</label>
             </Box>
-            <Box m={10}>
+            <Box p={8}>
             <NavButton name='submit' />
             </Box>
         </Box>
