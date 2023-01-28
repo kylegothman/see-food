@@ -1,8 +1,10 @@
 .card {
+  min-width: 390px;
+  min-height: 555px; 
+  background-color: #FFFFF0;
   text-align: center;
   color: black;
-  border-radius: 0;
-  box-shadow: 15px 15px 0 -2.5px #fff, 15px 15px 0 0 #000;
+  border-radius: .5em;
   padding: 1em 2em;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
