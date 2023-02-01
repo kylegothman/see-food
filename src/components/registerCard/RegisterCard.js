@@ -15,19 +15,19 @@ export function RegisterCard() {
             <Box className="header">
                 <h2>Sign Up</h2>
             </Box>
-            <Box className="name">
+            <Box className="inputBox">
                 <input className="name__input" type="text" name="name" autoComplete="off" required />
                 <label className="name__label" htmlFor="name">name</label>
             </Box>
-            <Box className="pw">
+            <Box className="inputBox">
                 <input className="pw__input" type="text" name="name" autoComplete="off" required />
-                <label className="pw__label" htmlFor="password">username</label>
+                <label className="pw__label" htmlFor="username">username</label>
             </Box>
-            <Box className="pw">
+            <Box className="inputBox">
                 <input className="pw__input" type="text" name="name" autoComplete="off" required />
                 <label className="pw__label" htmlFor="password">password</label>
             </Box>
-            <Box p={8}>
+            <Box p={7}>
             <NavButton name='submit' />
             </Box>
         </Box>
