@@ -20,8 +20,8 @@ export function RegisterCard() {
                 <label className="name__label" htmlFor="name">name</label>
             </Box>
             <Box className="inputBox">
-                <input className="pw__input" type="text" name="name" autoComplete="off" required />
-                <label className="pw__label" htmlFor="username">username</label>
+                <input className="username__input" type="text" name="name" autoComplete="off" required />
+                <label className="username__label" htmlFor="username">username</label>
             </Box>
             <Box className="inputBox">
                 <input className="pw__input" type="text" name="name" autoComplete="off" required />
