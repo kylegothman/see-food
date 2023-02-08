@@ -12,8 +12,8 @@ export function RegisterCard() {
     console.log(errors);
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <Center bg='yellow.50'>
+        <Center bg='yellow.50'>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <Box className='card'
                             _hover={{ 
                                 transform: 'translateY(-4px) translateX(-2px)',
@@ -31,15 +31,14 @@ export function RegisterCard() {
                         <label className="username__label" htmlFor="username">username</label>
                     </Box>
                     <Box className="inputBox">
-                        <input className="pw__input" type="text" name="pw" autoComplete="off" required {...register("pw")}/>
+                        <input className="pw__input" type="password" name="pw" autoComplete="off" required {...register("pw")}/>
                         <label className="pw__label" htmlFor="password">password</label>
                     </Box>
                     <Box p={7}>
                     <NavButton type='submit' name='submit' />
                     </Box>
                 </Box>
-                
-            </Center>
-        </form>
+            </form>
+        </Center>
     );
 }
