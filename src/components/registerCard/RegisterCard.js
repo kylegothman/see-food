@@ -8,8 +8,26 @@ import NavButton from '../ui/button/Button';
 export function RegisterCard() {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = data => console.log(data);
-    console.log(errors);
+    const onSubmit = (data) => {
+        console.log(JSON.stringify({data}));
+        fetch('http://localhost:3000/register', {
+            method:'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({data})
+            })
+            .then((response) => {
+                if (!response.ok) {
+                  throw new Error(
+                    `This is an HTTP error: The status is ${response.status}`
+                  );
+                }
+                return response;
+              })
+              .then((actualData) => console.log(actualData))
+              .catch((err) => {
+                console.log(err.message);
+              });
+            }
 
     return (
         <Center bg='yellow.50'>
@@ -31,7 +49,7 @@ export function RegisterCard() {
                         <label className="username__label" htmlFor="username">username</label>
                     </Box>
                     <Box className="inputBox">
-                        <input className="pw__input" type="password" name="pw" autoComplete="off" required {...register("pw")}/>
+                        <input className="pw__input" type="password" name="password" autoComplete="off" required {...register("password")}/>
                         <label className="pw__label" htmlFor="password">password</label>
                     </Box>
                     <Box p={7}>
