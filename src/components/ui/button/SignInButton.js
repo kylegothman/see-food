@@ -8,7 +8,7 @@ const SignInButton = () => {
 
     return (
         <div>
-            {isLoggedIn ? <button className='button' handleClick={logout}>Logout</button> : <button className='button' handleClick={login}>Login</button>}
+            {isLoggedIn ? <button className='bbutton' onClick={logout}>Logout</button> : <button className='bbutton' onClick={login}>Login</button>}
         </div>
         );
 }
