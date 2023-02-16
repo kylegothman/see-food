@@ -14,10 +14,14 @@
 button:hover {
     transform: translateY(-4px) translateX(-2px);
     box-shadow: 2px 5px 0 0 black;
+    color:  #FFFFFF;
+    background-color: #40C7CA
 }
 
 button:active {
     transform: translateY(2px) translateX(1px);
+    color:  #FFFFFF;
     box-shadow: 0 0 0 0 black;
+    background-color: #40C7CA
 }
 

@@ -1,42 +1,41 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
 import './registerCard.css'
-import { Center } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
+import { Center, Box } from '@chakra-ui/react';
 import NavButton from '../ui/button/Button';
 
 export function RegisterCard() {
     const { register, handleSubmit, formState: { errors } } = useForm();
-
+    
     const onSubmit = (data) => {
         console.log(JSON.stringify({data}));
         fetch('http://localhost:3000/register', {
             method:'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({data})
-            })
-            .then((response) => {
-                if (!response.ok) {
-                  throw new Error(
-                    `This is an HTTP error: The status is ${response.status}`
-                  );
-                }
-                return response;
-              })
-              .then((actualData) => console.log(actualData))
-              .catch((err) => {
-                console.log(err.message);
-              });
-            }
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(
+                `This is an HTTP error: The status is ${response.status}`
+                );
+            } else {
+            return response;
+    }
+})
+        .then((actualData) => console.log(actualData))
+        .catch((err) => {console.log(err.message);
+        });
+    }
 
     return (
         <Center bg='yellow.50'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Box className='card'
-                            _hover={{ 
-                                transform: 'translateY(-4px) translateX(-2px)',
-                                backgroundColor: '#FCD035',
-                                shadow: '2px 5px 0 0 black' }}>
+                    _hover={{ 
+                        transform: 'translateY(-4px) translateX(-2px)',
+                        backgroundColor: '#FCD035',
+                        shadow: '2px 5px 0 0 black' }}>
                     <Box className="header">
                         <h2>Sign Up</h2>
                     </Box>
