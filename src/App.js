@@ -4,7 +4,6 @@ import { RegisterCard } from './components/registerCard/RegisterCard';
 import Home from './components/home/Home.js';
 import Login from './components/login/Login.js'
 
-
 export default function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [route, setRoute] = useState('signin')
@@ -38,6 +37,7 @@ export default function App() {
     })
   }
 
+  let k = 'c2e851ddbb4446bda9fc93146215a0a8'
   const raw = JSON.stringify({
     "user_app_id": {
       "user_id": "k-goth",
@@ -59,7 +59,7 @@ export default function App() {
   method: 'POST',
   headers: {
       'Accept': 'application/json',
-      'Authorization': 'Key c2e851ddbb4446bda9fc93146215a0a8'   
+      'Authorization': `Key ${k}`  
   },
   body: raw
   };
