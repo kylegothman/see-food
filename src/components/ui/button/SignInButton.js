@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import './button.css';
 
-const SignInButton = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const login = () => setIsLoggedIn(true);
-    const logout = () => setIsLoggedIn(false);
+export function SignInButton({ onRouteChange, route }) {
+    
 
     return (
         <div>
-            {isLoggedIn ? <button className='bbutton' onClick={logout}>Logout</button> : <button className='bbutton' onClick={login}>Login</button>}
+            { route === 'signin' 
+            ? <button className='bbutton' onClick={() => onRouteChange('register')}>Sign Up</button>
+            : <button className='bbutton' onClick={() => onRouteChange('signin')}>Login</button>
+            }
         </div>
         );
 }
 
-export default SignInButton;
+
 

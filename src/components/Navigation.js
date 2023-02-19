@@ -1,8 +1,8 @@
 import React from 'react';
 import { SeeFoodLogo } from './logo/Logo';
 import '../App.css';
-import NavButton from './ui/button/Button';
-import SignInButton from './ui/button/SignInButton';
+import NavButton from './ui/button/NavButton';
+import { SignInButton } from './ui/button/SignInButton';
 
 import {
     Box,
@@ -12,7 +12,7 @@ import {
   } from '@chakra-ui/react';
 
 
-function Navbar() {
+function Navbar({ onRouteChange, isSignedIn, route }) {
     return (
         <Box pt='1' bg='yellow.50'>
           <Flex minWidth='max-content' alignItems='center' gap='2'>
@@ -23,8 +23,8 @@ function Navbar() {
             </Box>
             <Spacer />
             <ButtonGroup pr='5' gap='2'>
-              <NavButton name='Sign Up'></NavButton>
-              <SignInButton />
+              {isSignedIn && <NavButton onRouteChange={onRouteChange} isSignedIn={isSignedIn}/>}
+              {!isSignedIn && <SignInButton route={route} onRouteChange={onRouteChange} isSignedIn={isSignedIn}/>}
             </ButtonGroup>
           </Flex>
         </Box>

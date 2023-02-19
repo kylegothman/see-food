@@ -1,10 +1,10 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import './registerCard.css'
-import { Center, Box } from '@chakra-ui/react';
-import NavButton from '../ui/button/Button';
+import './registerCard.css';
+import { Center, Box, Button } from '@chakra-ui/react';
+import theme from '../../themes/components/button.tsx';
 
-export function RegisterCard() {
+export function RegisterCard({onRouteChange, loadUser}) {
     const { register, handleSubmit, formState: { errors } } = useForm();
     
     const onSubmit = (data) => {
@@ -20,42 +20,54 @@ export function RegisterCard() {
                 `This is an HTTP error: The status is ${response.status}`
                 );
             } else {
-            return response;
-    }
-})
+                console.log('new user created')
+                return response;
+            }
+        })
+        .then((data) => {
+            if (data) {
+              console.log('route changed to home');
+              loadUser(data);
+              onRouteChange('home');
+            }
+        })
         .then((actualData) => console.log(actualData))
-        .catch((err) => {console.log(err.message);
-        });
+        .catch((err) => {console.log(err.message)})
     }
 
     return (
         <Center bg='yellow.50'>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <Box className='card'
-                    _hover={{ 
-                        transform: 'translateY(-4px) translateX(-2px)',
-                        backgroundColor: '#FCD035',
-                        shadow: '2px 5px 0 0 black' }}>
-                    <Box className="header">
-                        <h2>Sign Up</h2>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <Box className='card'
+                        _hover={{ 
+                            transform: 'translateY(-4px) translateX(-2px)',
+                            backgroundColor: '#FCD035',
+                            shadow: '2px 5px 0 0 black' }}>
+                        <Box className="header">
+                            <h2>Sign Up</h2>
+                        </Box>
+                        <Box className="inputBox">
+                            <input className="name__input" type="text" name="name" autoComplete="off" required {...register("name")}/>
+                            <label className="name__label" htmlFor="name">name</label>
+                        </Box>
+                        <Box className="inputBox">
+                            <input className="username__input" type="text" name="username" autoComplete="off" required {...register("username")}/>
+                            <label className="username__label" htmlFor="username">username</label>
+                        </Box>
+                        <Box className="inputBox">
+                            <input className="pw__input" type="password" name="password" autoComplete="off" required {...register("password")}/>
+                            <label className="pw__label" htmlFor="password">password</label>
+                        </Box>
+                        <Button 
+                            theme={theme}
+                            w='175px'
+                            type='submit' 
+                            name='submit'
+                        >
+                                Submit
+                        </Button>
                     </Box>
-                    <Box className="inputBox">
-                        <input className="name__input" type="text" name="name" autoComplete="off" required {...register("name")}/>
-                        <label className="name__label" htmlFor="name">name</label>
-                    </Box>
-                    <Box className="inputBox">
-                        <input className="username__input" type="text" name="username" autoComplete="off" required {...register("username")}/>
-                        <label className="username__label" htmlFor="username">username</label>
-                    </Box>
-                    <Box className="inputBox">
-                        <input className="pw__input" type="password" name="password" autoComplete="off" required {...register("password")}/>
-                        <label className="pw__label" htmlFor="password">password</label>
-                    </Box>
-                    <Box p={7}>
-                    <NavButton type='submit' name='submit' />
-                    </Box>
-                </Box>
-            </form>
+                </form>
         </Center>
     );
 }
