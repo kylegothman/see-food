@@ -1,74 +1,139 @@
 import React, { useState } from "react";
-import {UploadIcon} from '../ui/uploadIcon/UploadIcon.js';
-import {Garbage} from '../ui/garbage/Garbage.js';
-import {Eye} from '../ui/eye/Eye.js';
+import { UploadIcon } from '../ui/uploadIcon/UploadIcon.js';
+import { Garbage } from '../ui/garbage/Garbage.js';
+import { Eye } from '../ui/eye/Eye.js';
 import theme from '../../themes/components/button.tsx';
 import './home.css';
 import { Button, Box, Flex, ButtonGroup } from '@chakra-ui/react';
 
-
 export function UploadImage() {
     const [selectedImage, setSelectedImage] = useState(null);
+    const [imgBit, setImgBit] = useState(null);
+
     const handleButtonClick = () => {
         document.querySelector('input[type="file"]').click();
     };
 
+    const onSubmit = async () => {
+        const PAT = 'c2e851ddbb4446bda9fc93146215a0a8';
+        const USER_ID = 'k-goth';   
+        const APP_ID = 'SeeFood';
+        const IMAGE_BYTES_STRING = imgBit.slice(23);
+
+        const raw = JSON.stringify({
+            "user_app_id": {
+                "user_id": USER_ID,
+                "app_id": APP_ID
+            },
+            "inputs": [
+                {
+                    "data": {
+                        "image": {
+                            "base64": IMAGE_BYTES_STRING
+                        }
+                    }
+                }
+            ]
+        }); 
+
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Key ${PAT}`  
+            },
+            body: raw
+        };
+        
+        try {
+            console.log(requestOptions)
+            console.log(IMAGE_BYTES_STRING)
+            const response = await fetch(`https://api.clarifai.com/v2/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs`, requestOptions);
+            const result = await response.text();
+            console.log(result);
+        } catch (error) {
+            console.log('error', error);
+        }
+    };
+
+    const handleFileInputChange = (event) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const dataUrl = reader.result;
+            console.log(dataUrl)
+            setImgBit(dataUrl);
+        };
+        reader.readAsDataURL(file);
+        setSelectedImage(file);
+    };
+
     return (
-        <Flex h='100%' direction='column' alignContent='center' align={'center'} justify='center'>
+        <Flex
+            h='100%'
+            direction='column'
+            alignContent='center'
+            align={'center'}
+            justify='center'
+        >
             {selectedImage && (
                 <Box boxSize='xs' p={5}>
                     <Box maxW='80%' className='imageBox' align='center'>
                         <img
                             className='userImage'
-                            alt="uploaded" 
-                            src={URL.createObjectURL(selectedImage)} 
+                            alt="uploaded"
+                            src={URL.createObjectURL(selectedImage)}
                         />
                     </Box>
                     <Box position='relative' bottom={0} pt={5} justify='center' align='center' >
                         <ButtonGroup verticalAlign='bottom' gap={2}>
-                                <Button 
-                                    leftIcon={<Garbage />}
-                                    _hover={{ backgroundColor: '#F65223'}}
-                                    onClick={()=>setSelectedImage(null)}>
-                                        Remove
-                                </Button>
-                                <Button 
-                                    leftIcon={<Eye/>} 
-                                    type='submit' 
-                                    name='submit'>
-                                        Submit
-                                </Button>
+                            <Button
+                                leftIcon={<Garbage />}
+                                _hover={{ backgroundColor: '#F65223' }}
+                                onClick={() => {
+                                    setSelectedImage(null);
+                                    setImgBit(null);
+                                }}
+                            >
+                                Remove
+                            </Button>
+                            <Button
+                                onClick={onSubmit}
+                                leftIcon={<Eye />}
+                                type='submit'
+                                name='submit'
+                            >
+                                Submit
+                            </Button>
                         </ButtonGroup>
                     </Box>
                 </Box>
             )}
-      
-            {!selectedImage && (
-                <Flex display='flex' w='100%' h='300px' alignItems='center' justifyContent='center' direction='column' p={5}>
-                    <Box pt={25} pb={5} textAlign='center'>
-                        <h1>Upload an image to the AI</h1>
-                    </Box>
-                    <Box position='relative' bottom={0} top={20}>
-                        <input
-                            type="file" 
-                            style={{outline: "none", display: "none" }} 
-                            onChange={(event) => {
-                                    console.log(event.target.files[0]);
-                                    setSelectedImage(event.target.files[0]) 
-                            }}
-                        />
-                        <Button
-                            theme={theme}
-                            w='175px'
-                            textAlign='center'
-                            _hover={{ backgroundColor: '#40C7CA', color: '#FFFFF0'}}
-                            leftIcon={<UploadIcon />} 
-                            onClick={handleButtonClick}
-                        >Upload Image
-                        </Button>
-                    </Box>
-                </Flex>
-            )}
+
+        {!selectedImage && (
+        <Flex display='flex' w='100%' h='300px' alignItems='center' justifyContent='center' direction='column' p={5}>
+            <Box pt={25} pb={5} textAlign='center'>
+            <h1>Upload an image to the AI</h1>
+            </Box>
+            <Box position='relative' bottom={0} top={20}>
+            <input
+                type="file"
+                style={{ outline: "none", display: "none" }}
+                onChange={handleFileInputChange}
+            />
+            <Button
+                theme={theme}
+                w='175px'
+                textAlign='center'
+                _hover={{ backgroundColor: '#40C7CA', color: '#FFFFF0' }}
+                leftIcon={<UploadIcon />}
+                onClick={handleButtonClick}
+            >
+                Upload Image
+            </Button>
+            </Box>
         </Flex>
-    )
+        )}
+    </Flex>
+    );
 }

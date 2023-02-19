@@ -4,7 +4,7 @@ import './home.css';
 import {UploadImage} from './UploadImage.js';
 
 
-export default function Home() {
+export default function Home(setImgBit) {
 
     return (
         <Center bg='yellow.50'>
@@ -20,7 +20,7 @@ export default function Home() {
                 p='1em 1em 1em 1em'
                 border='1px'
             >
-            <UploadImage/>
+            <UploadImage setImgBit={setImgBit}/>
             </Box> 
         </Center>
     );
