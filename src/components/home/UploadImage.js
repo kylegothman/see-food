@@ -8,10 +8,17 @@ import { Button, Box, Flex, ButtonGroup } from '@chakra-ui/react';
 
 export function UploadImage() {
     const [selectedImage, setSelectedImage] = useState(null);
+    const [route, setRoute] = useState('upload')
     const [imgBit, setImgBit] = useState(null);
 
     const handleButtonClick = () => {
         document.querySelector('input[type="file"]').click();
+    };
+
+    const handleNewUpload = () => {
+        setSelectedImage(null);
+        setImgBit(null);
+        setRoute('upload');
     };
 
     const onSubmit = async () => {
@@ -36,6 +43,16 @@ export function UploadImage() {
             ]
         }); 
 
+        const happyAI = () => {
+            setRoute('submitted');
+            console.log('Happy AI');
+        }
+
+        const normalAi = () => {
+            setRoute('submitted');
+            console.log('The ai is feeling normal');
+        }
+
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -46,11 +63,9 @@ export function UploadImage() {
         };
         
         try {
-            console.log(requestOptions)
-            console.log(IMAGE_BYTES_STRING)
             const response = await fetch(`https://api.clarifai.com/v2/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs`, requestOptions);
             const result = await response.text();
-            console.log(result);
+            result.includes('hot dog') ? happyAI() : normalAi()
         } catch (error) {
             console.log('error', error);
         }
@@ -58,14 +73,19 @@ export function UploadImage() {
 
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            const dataUrl = reader.result;
-            console.log(dataUrl)
-            setImgBit(dataUrl);
-        };
-        reader.readAsDataURL(file);
-        setSelectedImage(file);
+        if (file.type !== "image/jpeg") {
+            alert("Please select a .jpg file");
+            return;
+        }   else { 
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const dataUrl = reader.result;
+                setImgBit(dataUrl);
+            };
+            reader.readAsDataURL(file);
+            setSelectedImage(file);
+            setRoute('notSubmitted');
+        }
     };
 
     return (
@@ -76,7 +96,7 @@ export function UploadImage() {
             align={'center'}
             justify='center'
         >
-            {selectedImage && (
+            {route === 'notSubmitted' && (
                 <Box boxSize='xs' p={5}>
                     <Box maxW='80%' className='imageBox' align='center'>
                         <img
@@ -93,6 +113,7 @@ export function UploadImage() {
                                 onClick={() => {
                                     setSelectedImage(null);
                                     setImgBit(null);
+                                    setRoute('upload')
                                 }}
                             >
                                 Remove
@@ -110,7 +131,33 @@ export function UploadImage() {
                 </Box>
             )}
 
-        {!selectedImage && (
+            {route === 'submitted' && (
+                <Box boxSize='s' p={5}>
+                    <Box maxW='80%' className='imageBox' align='flex=start'>
+                        <img
+                            className='userImage'
+                            alt="uploaded"
+                            src={URL.createObjectURL(selectedImage)}
+                        />
+                    </Box>
+                    <Box position='relative' bottom={0} pt={5} justify='center' align='center' >
+                        <ButtonGroup align='center' verticalAlign='bottom' gap={2}>
+                            <Button
+                                theme={theme}
+                                w={225}
+                                textAlign='center'
+                                _hover={{ backgroundColor: '#40C7CA', color: '#FFFFF0' }}
+                                leftIcon={<UploadIcon />}
+                                onClick={handleNewUpload}
+                            >
+                                Upload New Image
+                            </Button>
+                        </ButtonGroup>
+                    </Box>
+                </Box>
+            )}
+                                  
+        {route === 'upload' && (
         <Flex display='flex' w='100%' h='300px' alignItems='center' justifyContent='center' direction='column' p={5}>
             <Box pt={25} pb={5} textAlign='center'>
             <h1>Upload an image to the AI</h1>

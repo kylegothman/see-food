@@ -8,7 +8,6 @@ export function RegisterCard({onRouteChange, loadUser}) {
     const { register, handleSubmit, formState: { errors } } = useForm();
     
     const onSubmit = (data) => {
-        console.log(JSON.stringify({data}));
         fetch('http://localhost:3000/register', {
             method:'post',
             headers: {'Content-Type': 'application/json'},

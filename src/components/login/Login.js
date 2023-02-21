@@ -47,7 +47,7 @@ export default function Login({ onRouteChange, loadUser }) {
                         <h2>Log In</h2>
                     </Box>
                     <Box className="inputBox">
-                        <input className="username__input" type="text" name="username" autoComplete="off" required {...register("username")}/>
+                        <input className="username__input" type="text" name="username" autoComplete="off" required  {...register("username", {maxLength: 20 })}/>
                         <label className="username__label" htmlFor="username">username</label>
                     </Box>
                     <Box className="inputBox">

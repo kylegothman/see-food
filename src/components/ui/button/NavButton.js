@@ -7,7 +7,7 @@ import {
 export default function NavButton({ onRouteChange }) {
     return (
             <ButtonGroup>
-                <button className='bbutton' onClick={() => onRouteChange('register')}>Sign Out</button> 
+                <button className='bbutton' onClick={() => onRouteChange('signin')}>Sign Out</button> 
                 <button className='bbutton' onClick={() => onRouteChange('profile')}>Profile</button>
             </ButtonGroup>
         
