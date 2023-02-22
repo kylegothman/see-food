@@ -38,7 +38,7 @@ export default function Login({ onRouteChange, loadUser }) {
     return (
         <Center bg='yellow.50'>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Box className='card'
+                <Box className='loginCard' h='25em'
                     _hover={{ 
                         transform: 'translateY(-4px) translateX(-2px)',
                         backgroundColor: '#FCD035',

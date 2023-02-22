@@ -10,8 +10,6 @@ export default function Home(setImgBit) {
         <Center bg='yellow.50'>
            <Box 
                 className='homeCard'
-                boxSize='sm' 
-                h='25em'
                 align='center'
                 backgroundColor= '#FCD035'
                 boxShadow='2px 5px 0 0 black'

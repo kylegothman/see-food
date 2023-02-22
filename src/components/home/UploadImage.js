@@ -5,11 +5,26 @@ import { Eye } from '../ui/eye/Eye.js';
 import theme from '../../themes/components/button.tsx';
 import './home.css';
 import { Button, Box, Flex, ButtonGroup } from '@chakra-ui/react';
+import { CleanApiResponse } from './CleanApi'
+import { ResultList } from './ResultList'
+import {
+    Table,
+    Thead,
+    Tr,
+    Th,
+    TableCaption,
+    TableContainer,
+  } from '@chakra-ui/react'
+
+
+
+
 
 export function UploadImage() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [route, setRoute] = useState('upload')
     const [imgBit, setImgBit] = useState(null);
+    const [imgResults, setImgResults] = useState([]);
 
     const handleButtonClick = () => {
         document.querySelector('input[type="file"]').click();
@@ -65,6 +80,10 @@ export function UploadImage() {
         try {
             const response = await fetch(`https://api.clarifai.com/v2/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs`, requestOptions);
             const result = await response.text();
+            const resultClean = CleanApiResponse(result) 
+            console.log(resultClean)
+            setImgResults(resultClean)
+            console.log(imgResults)
             result.includes('hot dog') ? happyAI() : normalAi()
         } catch (error) {
             console.log('error', error);
@@ -97,8 +116,8 @@ export function UploadImage() {
             justify='center'
         >
             {route === 'notSubmitted' && (
-                <Box boxSize='xs' p={5}>
-                    <Box maxW='80%' className='imageBox' align='center'>
+                <Box display='flex' flexDirection='column' justifyContent='center' minW='400px' minH='400px' p={5}>
+                    <Box maxW={500} className='imageBox' align='center'>
                         <img
                             className='userImage'
                             alt="uploaded"
@@ -132,7 +151,7 @@ export function UploadImage() {
             )}
 
             {route === 'submitted' && (
-                <Box boxSize='s' p={5}>
+                <Box minW={400} p={5}>
                     <Box maxW='80%' className='imageBox' align='flex=start'>
                         <img
                             className='userImage'
@@ -140,6 +159,20 @@ export function UploadImage() {
                             src={URL.createObjectURL(selectedImage)}
                         />
                     </Box>
+                    <TableContainer pt={10}>
+                        <Table variant='simple' size='sm'>
+                            <TableCaption></TableCaption>
+                            <Thead>
+                            <Tr>
+                                <Th>Prediction</Th>
+                                <Th isNumeric>Certainty</Th>
+                            </Tr>
+                            </Thead>
+                            <>
+                            <ResultList imgResults={imgResults}/>
+                            </>
+                        </Table>
+                        </TableContainer>
                     <Box position='relative' bottom={0} pt={5} justify='center' align='center' >
                         <ButtonGroup align='center' verticalAlign='bottom' gap={2}>
                             <Button
@@ -158,7 +191,7 @@ export function UploadImage() {
             )}
                                   
         {route === 'upload' && (
-        <Flex display='flex' w='100%' h='300px' alignItems='center' justifyContent='center' direction='column' p={5}>
+        <Flex boxSize='md' minW='400px' minH='400px' alignItems='center' justifyContent='center' direction='column' p={5}>
             <Box pt={25} pb={5} textAlign='center'>
             <h1>Upload an image to the AI</h1>
             </Box>
