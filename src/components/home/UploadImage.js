@@ -93,7 +93,7 @@ export function UploadImage() {
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
         if (file.type !== "image/jpeg") {
-            alert("Please select a .jpg file");
+            alert('Please select a .jpg file')
             return;
         }   else { 
             const reader = new FileReader();
@@ -111,13 +111,12 @@ export function UploadImage() {
         <Flex
             h='100%'
             direction='column'
-            alignContent='center'
-            align={'center'}
-            justify='center'
+            alignItems='center'
+            justifyContent='center'
         >
             {route === 'notSubmitted' && (
-                <Box display='flex' flexDirection='column' justifyContent='center' minW='400px' minH='400px' p={5}>
-                    <Box maxW={500} className='imageBox' align='center'>
+                <Box minW={400} p={5}>
+                    <Box maxW={300} border='1px solid black' borderRadius='.5em' className='imageBox' align='flex-start'>
                         <img
                             className='userImage'
                             alt="uploaded"
@@ -152,7 +151,7 @@ export function UploadImage() {
 
             {route === 'submitted' && (
                 <Box minW={400} p={5}>
-                    <Box maxW='80%' className='imageBox' align='flex=start'>
+                    <Box maxW={400} border='1px solid black' borderRadius='.5em' className='imageBox' align='flex-start'>
                         <img
                             className='userImage'
                             alt="uploaded"
