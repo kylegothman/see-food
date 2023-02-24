@@ -182,7 +182,7 @@ export function UploadImage() {
                                 leftIcon={<UploadIcon />}
                                 onClick={handleNewUpload}
                             >
-                                Upload New Image
+                                Delete Profile
                             </Button>
                         </ButtonGroup>
                     </Box>
