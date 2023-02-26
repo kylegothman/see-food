@@ -24,7 +24,7 @@ export function Profile() {
                     leftIcon={<UploadIcon />}
                     onClick={handleButtonClick}
                 >
-                    Upload Image
+                    Delete Profile
                 </Button>
                 </Box>
             </Flex>
