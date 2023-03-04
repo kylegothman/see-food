@@ -1,7 +1,8 @@
 import React from "react";
 import { Center, Box } from '@chakra-ui/react';
 import './home.css';
-import {UploadImage} from './UploadImage.js';
+import {UploadImage} from './UploadImage';
+
 
 
 export default function Home(setImgBit) {

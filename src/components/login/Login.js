@@ -1,44 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
 import '../registerCard/registerCard.css';
-import { Center, Box, Button } from '@chakra-ui/react';
+import { Center, Box, Button, Alert, AlertIcon, AlertDescription, } from '@chakra-ui/react';
 import theme from '../../themes/components/button.tsx';
 
-
 export default function Login({ onRouteChange, loadUser }) {
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    
-    const onSubmit = (data) => {
-        console.log(JSON.stringify({data}));
-        fetch('http://localhost:3000/signin', {
-            method:'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({data})
-        })
-        .then((response) => {
+    const { register, handleSubmit, } = useForm();
+    const [alertMessage, setAlertMessage] = useState('');
+
+    const onSubmit = async (data) => {
+        try {
+            const response = await fetch('http://localhost:3000/signin', {
+                method:'post',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({data})
+            });
             if (!response.ok) {
-                throw new Error(
-                `This is an HTTP error: The status is ${response.status}`
-                );
+                response.status === 401? setAlertMessage("Username & password was incorrect. Please try again.") : setAlertMessage(`An HTTP error occurred: ${response.status}`);
             } else {
-                return response;
+                const actualData = await response;
+                loadUser(actualData);
+                onRouteChange('home');
+                console.log('route changed to home');
             }
-        })
-        .then((data) => {
-            if (data) {
-              loadUser(data);
-              onRouteChange('home');
-              console.log('route changed to home')
-            }
-        })
-        .then((actualData) => console.log(actualData))
-        .catch((err) => {console.log(err.message)})
+        } catch (error) {
+            setAlertMessage(`An error occurred: ${error.message}`);
+        }
+    }
+
+    const handleInput = () => {
+        setAlertMessage('');
     }
 
     return (
         <Center bg='yellow.50'>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Box className='loginCard' h='25em'
+                <Box className='loginCard' maxWidth={400} p={12}
                     _hover={{ 
                         transform: 'translateY(-4px) translateX(-2px)',
                         backgroundColor: '#FCD035',
@@ -46,20 +43,25 @@ export default function Login({ onRouteChange, loadUser }) {
                     <Box className="header">
                         <h2>Log In</h2>
                     </Box>
+                    {alertMessage && <Alert mb={10} border='1px' borderRadius=".5em" status='error'>
+                                    <AlertIcon/>
+                                    <AlertDescription>{alertMessage}</AlertDescription>
+                                    </Alert>}
                     <Box className="inputBox">
-                        <input className="username__input" type="text" name="username" autoComplete="off" required  {...register("username", {maxLength: 20 })}/>
+                        <input className="username__input" type="text" name="username" autoComplete="off" required {...register("username", {maxLength: 20 })} onChange={handleInput}/>
                         <label className="username__label" htmlFor="username">username</label>
                     </Box>
                     <Box className="inputBox">
-                        <input className="pw__input" type="password" name="password" autoComplete="off" required {...register("password")}/>
+                        <input className="pw__input" type="password" name="password" autoComplete="off" required {...register("password")} onChange={handleInput}/>
                         <label className="pw__label" htmlFor="password">password</label>
                     </Box>
                     <Button 
-                        theme={theme}
-                        w='175px'
-                        type='submit' 
-                        name='submit'>
-                            Submit
+                    theme={theme}
+                    mt={15}
+                    w='175px'
+                    type='submit' 
+                    name='submit'>
+                        Submit
                     </Button>
                 </Box>
             </form>
