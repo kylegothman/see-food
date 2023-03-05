@@ -18,8 +18,9 @@ export default function Login({ onRouteChange, loadUser }) {
             if (!response.ok) {
                 response.status === 401? setAlertMessage("Username & password was incorrect. Please try again.") : setAlertMessage(`An HTTP error occurred: ${response.status}`);
             } else {
-                const actualData = await response;
+                const actualData = await response.json();
                 loadUser(actualData);
+                console.log(actualData);
                 onRouteChange('home');
                 console.log('route changed to home');
             }

@@ -1,33 +1,49 @@
 import React from 'react';
-import { Flex, Box, Button } from '@chakra-ui/react';
-import theme from '../../themes/components/button.tsx';
+import { Center, Box } from '@chakra-ui/react';
+import {
+    Table,
+    Tr,
+    Td,
+    TableContainer,
+  } from '@chakra-ui/react';
 
-export function Profile() {
-
+export default function Profile({user}) {
     return (
-        <>
-            <Flex boxSize='md' minW='400px' minH='400px' alignItems='center' justifyContent='center' direction='column' p={5}>
-                <Box pt={25} pb={5} textAlign='center'>
-                <h1>Profile</h1>
-                </Box>
-                <Box position='relative' bottom={0} top={20}>
-                <input
-                    type="file"
-                    style={{ outline: "none", display: "none" }}
-                    onChange={handleFileInputChange}
-                />
-                <Button
-                    theme={theme}
-                    w='175px'
-                    textAlign='center'
-                    _hover={{ backgroundColor: '#40C7CA', color: '#FFFFF0' }}
-                    leftIcon={<UploadIcon />}
-                    onClick={handleButtonClick}
-                >
-                    Delete Profile
-                </Button>
-                </Box>
-            </Flex>
-        </>
+        <Center bg='yellow.50'>
+        <Box 
+            className='homeCard'
+            align='center'
+            backgroundColor= '#FCD035'
+            boxShadow='2px 5px 0 0 black'
+            borderRadius='.5em'
+            mt='4em' 
+            p='2em 1em 1em 1em'
+            border='1px'
+            minW={390}
+            minH={300}
+         >
+                <h1 paddingTop={10} >Profile</h1>
+                <TableContainer pt={10}>
+                    <Table variant='simple' size='sm'>
+                        <Tr>
+                            <Td>Name:</Td>
+                            <Td>{user.name}</Td>
+                        </Tr>
+                        <Tr>
+                            <Td>Username:</Td>
+                            <Td>{user.username}</Td>
+                        </Tr>
+                        <Tr>
+                            <Td>Score:</Td>
+                            <Td>{user.score}</Td>
+                        </Tr>
+                        <Tr>
+                            <Td>Joined:</Td>
+                            <Td>{user.joined.slice(0, 10)}</Td>
+                        </Tr>
+                    </Table>
+                </TableContainer>
+        </Box>
+        </Center>
     )
 }

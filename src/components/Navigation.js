@@ -23,7 +23,7 @@ function Navbar({ onRouteChange, isSignedIn, route }) {
             </Box>
             <Spacer />
             <ButtonGroup pr='5' gap='2'>
-              {isSignedIn && <NavButton onRouteChange={onRouteChange} isSignedIn={isSignedIn}/>}
+              {isSignedIn && <NavButton route={route} onRouteChange={onRouteChange} isSignedIn={isSignedIn}/>}
               {!isSignedIn && <SignInButton route={route} onRouteChange={onRouteChange} isSignedIn={isSignedIn}/>}
             </ButtonGroup>
           </Flex>

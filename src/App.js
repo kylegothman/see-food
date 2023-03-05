@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import Navbar from './components/Navigation.js';
+import Navbar from './components/Navigation';
 import { RegisterCard } from './components/registerCard/RegisterCard';
-import Home from './components/home/Home.js';
-import Login from './components/login/Login.js'
+import Home from './components/home/Home';
+import Login from './components/login/Login'
+import Profile from './components/profile/Profile'
 
 export default function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -23,6 +24,7 @@ export default function App() {
       setIsSignedIn(true);
     }
     setRoute(route);
+    console.log(route)
 
   }
 
@@ -33,7 +35,8 @@ export default function App() {
       username: data.username,
       score: data.score,
       joined: data.joined
-    })
+    }) 
+    console.log(user)
   }
 
 
@@ -41,13 +44,13 @@ export default function App() {
     <>
       <Navbar isSignedIn={isSignedIn} route={route} onRouteChange={onRouteChange}/>
         { route === 'home'
-          ? <Home/>
-              : ( route === 'profile' ? <profile loadUser={loadUser} onRouteChange={onRouteChange}/>
-              : (
-                route === 'signin'
-                ? <Login loadUser={loadUser} onRouteChange={onRouteChange}/>
-                : <RegisterCard loadUser={loadUser} onRouteChange={onRouteChange}/>
-                ))}
+        ? <Home/>
+        : ( route === 'profile' 
+          ? <Profile user={user} onRouteChange={onRouteChange}/>
+          : ( route === 'signin'
+              ? <Login loadUser={loadUser} onRouteChange={onRouteChange}/>
+              : <RegisterCard loadUser={loadUser} onRouteChange={onRouteChange}/>
+            ))}
     </>
   );
 }

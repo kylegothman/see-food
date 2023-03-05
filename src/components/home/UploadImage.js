@@ -7,6 +7,7 @@ import './home.css';
 import { Button, Box, Flex, ButtonGroup } from '@chakra-ui/react';
 import { CleanApiResponse } from './CleanApi'
 import { ResultList } from './ResultList'
+import { Camera } from "./Camera";
 import {
     Table,
     Thead,
@@ -17,13 +18,10 @@ import {
   } from '@chakra-ui/react'
 
 
-
-
-
-export function UploadImage() {
+  export function UploadImage() {
     const [selectedImage, setSelectedImage] = useState(null);
     const [route, setRoute] = useState('upload')
-    const [imgBit, setImgBit] = useState(null);
+    const [imgBitt, setImgBitt] = useState(null);
     const [imgResults, setImgResults] = useState([]);
 
     const handleButtonClick = () => {
@@ -32,15 +30,28 @@ export function UploadImage() {
 
     const handleNewUpload = () => {
         setSelectedImage(null);
-        setImgBit(null);
+        setImgBitt(null);
         setRoute('upload');
     };
 
+    const handleSubmit = async () => {
+        if (!imgBitt) {
+          console.log("No image to submit");
+          return;
+        }
+        console.log('submitting', imgBitt);
+        onSubmit(imgBitt);
+      };
+
+    const capturePhoto = () =>  {
+        setRoute('camera');
+    }
+
     const onSubmit = async () => {
-        const PAT = 'c2e851ddbb4446bda9fc93146215a0a8';
-        const USER_ID = 'k-goth';   
+        const PAT = '';
+        const USER_ID = '';   
         const APP_ID = 'SeeFood';
-        const IMAGE_BYTES_STRING = imgBit.slice(23);
+        const IMAGE_BYTES_STRING = imgBitt.slice(23);
 
         const raw = JSON.stringify({
             "user_app_id": {
@@ -58,15 +69,19 @@ export function UploadImage() {
             ]
         }); 
 
-        const happyAI = () => {
+        const happyAI = (result) => {
+            let start = result.lastIndexOf('hot dog');
+            let hotDogScore = (result.slice(start + 17, start + 20) * 10);
             setRoute('submitted');
-            console.log('Happy AI');
+            console.log(`The AI loves your hot dog and awards you ${hotDogScore} points!`);
+            console.log(selectedImage);
         }
 
         const normalAi = () => {
             setRoute('submitted');
             console.log('The ai is feeling normal');
         }
+
 
         const requestOptions = {
             method: 'POST',
@@ -81,10 +96,8 @@ export function UploadImage() {
             const response = await fetch(`https://api.clarifai.com/v2/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs`, requestOptions);
             const result = await response.text();
             const resultClean = CleanApiResponse(result) 
-            console.log(resultClean)
             setImgResults(resultClean)
-            console.log(imgResults)
-            result.includes('hot dog') ? happyAI() : normalAi()
+            result.includes('hot dog') ? happyAI(result) : normalAi()
         } catch (error) {
             console.log('error', error);
         }
@@ -92,6 +105,7 @@ export function UploadImage() {
 
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
+        console.log(file);
         if (file.type !== "image/jpeg") {
             alert('Please select a .jpg file')
             return;
@@ -99,11 +113,11 @@ export function UploadImage() {
             const reader = new FileReader();
             reader.onloadend = () => {
                 const dataUrl = reader.result;
-                setImgBit(dataUrl);
+                setImgBitt(dataUrl);
             };
             reader.readAsDataURL(file);
-            setSelectedImage(file);
-            setRoute('notSubmitted');
+            setSelectedImage(file)
+            setRoute('notSubmitted')
         }
     };
 
@@ -114,6 +128,11 @@ export function UploadImage() {
             alignItems='center'
             justifyContent='center'
         >
+            {route === 'camera' && (
+                <Box maxW='1000px' >
+                <Camera handleSubmit={handleSubmit} onSubmit={onSubmit} selectedImage={selectedImage} setSelectedImage={setSelectedImage} imgBitt={imgBitt} setImgBitt={setImgBitt} />
+                </Box>
+            )}
             {route === 'notSubmitted' && (
                 <Box minW={400} p={5}>
                     <Box maxW={300} border='1px solid black' borderRadius='.5em' className='imageBox' align='flex-start'>
@@ -130,7 +149,7 @@ export function UploadImage() {
                                 _hover={{ backgroundColor: '#F65223' }}
                                 onClick={() => {
                                     setSelectedImage(null);
-                                    setImgBit(null);
+                                    setImgBitt(null);
                                     setRoute('upload')
                                 }}
                             >
@@ -182,7 +201,7 @@ export function UploadImage() {
                                 leftIcon={<UploadIcon />}
                                 onClick={handleNewUpload}
                             >
-                                Delete Profile
+                                Upload New Image
                             </Button>
                         </ButtonGroup>
                     </Box>
@@ -195,21 +214,31 @@ export function UploadImage() {
             <h1>Upload an image to the AI</h1>
             </Box>
             <Box position='relative' bottom={0} top={20}>
-            <input
-                type="file"
-                style={{ outline: "none", display: "none" }}
-                onChange={handleFileInputChange}
-            />
-            <Button
-                theme={theme}
-                w='175px'
-                textAlign='center'
-                _hover={{ backgroundColor: '#40C7CA', color: '#FFFFF0' }}
-                leftIcon={<UploadIcon />}
-                onClick={handleButtonClick}
-            >
-                Upload Image
-            </Button>
+
+            <ButtonGroup verticalAlign='bottom' gap={2}>
+                <Button
+                    leftIcon={<Garbage />}
+                    _hover={{ backgroundColor: '#F65223' }}
+                    onClick={capturePhoto}
+                >
+                    Take Photo
+                </Button>
+                <input
+                    type="file"
+                    style={{ outline: "none", display: "none" }}
+                    onChange={handleFileInputChange}
+                />
+                <Button
+                    theme={theme}
+                    w='175px'
+                    textAlign='center'
+                    _hover={{ backgroundColor: '#40C7CA', color: '#FFFFF0' }}
+                    leftIcon={<UploadIcon />}
+                    onClick={handleButtonClick}
+                >
+                    Upload Image
+                </Button>
+            </ButtonGroup>
             </Box>
         </Flex>
         )}
