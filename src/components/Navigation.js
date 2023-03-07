@@ -14,13 +14,15 @@ import {
 
 function Navbar({ onRouteChange, isSignedIn, route }) {
     return (
-        <Box pt='1' bg='yellow.50'>
+        <Box pt={5} bg='yellow.50'>
           <Flex minWidth='max-content' alignItems='center' gap='2'>
-            <Box>
+          {isSignedIn &&
+          <Box>
                 <a href='/'>
                     <SeeFoodLogo />
                 </a>
             </Box>
+          }
             <Spacer />
             <ButtonGroup pr='5' gap='2'>
               {isSignedIn && <NavButton route={route} onRouteChange={onRouteChange} isSignedIn={isSignedIn}/>}

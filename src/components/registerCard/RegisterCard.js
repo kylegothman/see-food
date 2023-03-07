@@ -3,9 +3,10 @@ import { useForm } from "react-hook-form";
 import './registerCard.css';
 import { Center, Box, Button } from '@chakra-ui/react';
 import theme from '../../themes/components/button.tsx';
+import  LogoEyes  from '../login/LogoEyes';
 
 export function RegisterCard({onRouteChange, loadUser}) {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     
     const onSubmit = (data) => {
         fetch('http://localhost:3000/register', {
@@ -37,11 +38,12 @@ export function RegisterCard({onRouteChange, loadUser}) {
     return (
         <Center bg='yellow.50'>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <Box className='card'
+                    <Box className='card' maxWidth={400} p={12}
                         _hover={{ 
                             transform: 'translateY(-4px) translateX(-2px)',
                             backgroundColor: '#FCD035',
                             shadow: '2px 5px 0 0 black' }}>
+                        <LogoEyes/>
                         <Box className="header">
                             <h2>Sign Up</h2>
                         </Box>
@@ -59,6 +61,7 @@ export function RegisterCard({onRouteChange, loadUser}) {
                         </Box>
                         <Button 
                             theme={theme}
+                            mt={15}
                             w='175px'
                             type='submit' 
                             name='submit'

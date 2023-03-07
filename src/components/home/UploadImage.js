@@ -8,6 +8,7 @@ import { Button, Box, Flex, ButtonGroup } from '@chakra-ui/react';
 import { CleanApiResponse } from './CleanApi'
 import { ResultList } from './ResultList'
 import { Camera } from "./Camera";
+import { CameraIcon } from '../ui/camera/CameraIcon.js';
 import {
     Table,
     Thead,
@@ -18,7 +19,7 @@ import {
   } from '@chakra-ui/react'
 
 
-  export function UploadImage() {
+  export function UploadImage({ user }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const [route, setRoute] = useState('upload')
     const [imgBitt, setImgBitt] = useState(null);
@@ -72,15 +73,48 @@ import {
         const happyAI = (result) => {
             let start = result.lastIndexOf('hot dog');
             let hotDogScore = (result.slice(start + 17, start + 20) * 10);
+            const json = {
+                id: `${user.id}`,
+                points: hotDogScore.toString(),
+            };
             setRoute('submitted');
-            console.log(`The AI loves your hot dog and awards you ${hotDogScore} points!`);
-            console.log(selectedImage);
-        }
+            fetch('http://localhost:3000/image-ranking', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(json),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log('Success:', data);
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+          };
 
-        const normalAi = () => {
+          const normalAi = () => {
+            const json = {
+                id: `${user.id}`,
+                points: "1",
+            };
             setRoute('submitted');
-            console.log('The ai is feeling normal');
-        }
+            fetch('http://localhost:3000/image-ranking', {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(json),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log('Success:', data);
+              })
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+          };
 
 
         const requestOptions = {
@@ -217,11 +251,11 @@ import {
 
             <ButtonGroup verticalAlign='bottom' gap={2}>
                 <Button
-                    leftIcon={<Garbage />}
+                    leftIcon={<CameraIcon />}
                     _hover={{ backgroundColor: '#F65223' }}
                     onClick={capturePhoto}
                 >
-                    Take Photo
+                    Camera
                 </Button>
                 <input
                     type="file"

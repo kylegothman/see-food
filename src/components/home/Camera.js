@@ -1,6 +1,8 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Box, Button, ButtonGroup } from "@chakra-ui/react";
 import { UploadIcon } from "../ui/uploadIcon/UploadIcon.js";
+import { Retake } from "../ui/retake/Retake.js";
+import { Snap } from "../ui/snap/Snap.js";
 import theme from "../../themes/components/button.tsx";
 import "./home.css";
 
@@ -70,7 +72,7 @@ export function Camera({handleSubmit, onSubmit, setImgBitt, imgBitt, setSelected
             w="175px"
             textAlign="center"
             _hover={{ backgroundColor: "#40C7CA", color: "#FFFFF0" }}
-            leftIcon={<UploadIcon />}
+            leftIcon={<Snap />}
             onClick={takePhoto}
           >
             SNAP!
@@ -94,7 +96,7 @@ export function Camera({handleSubmit, onSubmit, setImgBitt, imgBitt, setSelected
           w="175px"
           textAlign="center"
           _hover={{ backgroundColor: "#40C7CA", color: "#FFFFF0" }}
-          leftIcon={<UploadIcon />}
+          leftIcon={<Retake />}
           onClick={retakePhoto}
         >
           Retake

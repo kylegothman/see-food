@@ -8,6 +8,7 @@ import {
   } from '@chakra-ui/react';
 
 export default function Profile({user}) {
+    console.log(user.id)
     return (
         <Center bg='yellow.50'>
         <Box 
