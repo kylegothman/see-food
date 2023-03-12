@@ -1,5 +1,3 @@
-
-
 export function CleanApiResponse(response) {
   try {
     const data = JSON.parse(response);

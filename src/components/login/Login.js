@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from "react-hook-form";
 import '../registerCard/registerCard.css';
 import { Center, Box, Button, Alert, AlertIcon, AlertDescription, } from '@chakra-ui/react';
@@ -6,12 +6,20 @@ import theme from '../../themes/components/button.tsx';
 import './login.css'
 import LogoEyes from './LogoEyes';
 
-export default function Login({ onRouteChange, loadUser }) {
-    const { register, handleSubmit, } = useForm();
+export default function Login({ onRouteChange, loadProfile }) {
+    const { register, handleSubmit, setValue } = useForm();
     const [alertMessage, setAlertMessage] = useState('');
+
+    useEffect(() => {
+        register("username", { required: true });
+        register("password", { required: true });
+      }, [register])
+      
+
 
     const onSubmit = async (data) => {
         try {
+            console.log(data);
             const response = await fetch('http://localhost:3000/signin', {
                 method:'post',
                 headers: {'Content-Type': 'application/json'},
@@ -21,18 +29,12 @@ export default function Login({ onRouteChange, loadUser }) {
                 response.status === 401? setAlertMessage("Username & password was incorrect. Please try again.") : setAlertMessage(`An HTTP error occurred: ${response.status}`);
             } else {
                 const actualData = await response.json();
-                loadUser(actualData);
-                console.log(actualData);
+                loadProfile(actualData);
                 onRouteChange('home');
-                console.log('route changed to home');
             }
         } catch (error) {
             setAlertMessage(`An error occurred: ${error.message}`);
         }
-    }
-
-    const handleInput = () => {
-        setAlertMessage('');
     }
 
     return (
@@ -54,11 +56,11 @@ export default function Login({ onRouteChange, loadUser }) {
                                         <AlertDescription>{alertMessage}</AlertDescription>
                                         </Alert>}
                         <Box className="inputBox">
-                            <input className="username__input" type="text" name="username" autoComplete="off" required {...register("username", {maxLength: 20 })} onChange={handleInput}/>
+                            <input className="username__input" type="text" name="username" autoComplete="off" required {...register("username", {maxLength: 20 })} onChange={e => setValue("username", e.target.value)} />
                             <label className="username__label" htmlFor="username">username</label>
                         </Box>
                         <Box className="inputBox">
-                            <input className="pw__input" type="password" name="password" autoComplete="off" required {...register("password")} onChange={handleInput}/>
+                            <input className="pw__input" type="password" name="password" autoComplete="off" required {...register("password")} onChange={e => setValue("password", e.target.value)}/>
                             <label className="pw__label" htmlFor="password">password</label>
                         </Box>
                         <Button 

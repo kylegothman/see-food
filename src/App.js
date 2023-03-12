@@ -4,6 +4,7 @@ import { RegisterCard } from './components/registerCard/RegisterCard';
 import Home from './components/home/Home';
 import Login from './components/login/Login';
 import Profile from './components/profile/Profile';
+import { Box } from '@chakra-ui/react';
 
 export default function App() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -18,32 +19,73 @@ export default function App() {
 
   async function onRouteChange(route) {
     if (route === 'signout') {
-      setIsSignedIn(false);
+      try {
+        const response = await fetch(`http://localhost:3000/signout`, {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      if (!response.ok) {
+        throw new Error(`This is an HTTP error: The status is ${response.status}`);
+      } else {
+        setIsSignedIn(false);
+        setUser({
+          id: '',
+          name: '',
+          username: '',
+          score: 0,
+          joined: ''
+        });
+        console.log(user)
+      }
+    } catch (error) {
+      console.error(error);
+    }
     } else if (route === 'home') {
       setIsSignedIn(true);
     } else if (route === 'profile') {
-      try {
-        const response = await fetch(`http://localhost:3000/profile/${user.id}`, {
-          method: 'get',
-          headers: { 'Content-Type': 'application/json' }
-        });
-        if (!response.ok) {
-          throw new Error(`This is an HTTP error: The status is ${response.status}`);
-        } else {
-          const actualData = await response.json();
-          loadUser(actualData);
-          console.log(actualData);
+      if (user.id) {
+        try {
+          const response = await fetch(`http://localhost:3000/profile/${user.id}`, {
+            method: 'get',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          if (!response.ok) {
+            throw new Error(`This is an HTTP error: The status is ${response.status}`);
+          } else {
+            const actualData = await response.json();
+            loadProfile(actualData);
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
       }
+    } else if (route === 'signin') {
+      // Wait for state updates to complete before attempting to log in again
+      setIsSignedIn(false);
+      setUser({
+        id: '',
+        name: '',
+        username: '',
+        score: 0,
+        joined: ''
+      });
+      console.log(user);    
     }
-
+  
     setRoute(route);
-    console.log(route);
   }
 
-  function loadUser(data) {
+  function loadUser({data}) {
+    setUser({
+      id: data.id,
+      name: data.name,
+      username: data.username,
+      score: data.score,
+      joined: data.joined
+    });
+  }
+  
+  function loadProfile(data) {
     setUser({
       id: data.id,
       name: data.name,
@@ -56,15 +98,17 @@ export default function App() {
   return (
     <>
       <Navbar isSignedIn={isSignedIn} route={route} onRouteChange={onRouteChange} />
-      {route === 'home' ? (
-        <Home user={user} setUser={setUser} />
-      ) : route === 'profile' ? (
-        <Profile user={user} onRouteChange={onRouteChange} />
-      ) : route === 'signin' ? (
-        <Login loadUser={loadUser} onRouteChange={onRouteChange} />
-      ) : (
-        <RegisterCard loadUser={loadUser} onRouteChange={onRouteChange} />
-      )}
+      <Box bg='yellow.50' mt={0} p={2}>
+        {route === 'home' ? (
+          <Home user={user} setUser={setUser} />
+        ) : route === 'profile' ? (
+          <Profile user={user} onRouteChange={onRouteChange} />
+        ) : route === 'signin' ? (
+          <Login loadProfile={loadProfile} onRouteChange={onRouteChange} />
+        ) : (
+          <RegisterCard loadUser={loadUser} onRouteChange={onRouteChange} />
+        )}
+      </Box>
     </>
   );
 }

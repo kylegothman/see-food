@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import { UploadIcon } from '../ui/uploadIcon/UploadIcon.js';
-import { Garbage } from '../ui/garbage/Garbage.js';
-import { Eye } from '../ui/eye/Eye.js';
+import { UploadIcon } from '../ui/uploadIcon/UploadIcon';
+import { Garbage } from '../ui/garbage/Garbage';
+import { Eye } from '../ui/eye/Eye';
 import theme from '../../themes/components/button.tsx';
 import './home.css';
-import { Button, Box, Flex, ButtonGroup } from '@chakra-ui/react';
+import { Button, Box, Flex, ButtonGroup, Alert, AlertTitle, AlertDescription, } from '@chakra-ui/react';
 import { CleanApiResponse } from './CleanApi'
 import { ResultList } from './ResultList'
 import { Camera } from "./Camera";
-import { CameraIcon } from '../ui/camera/CameraIcon.js';
+import { CameraIcon } from '../ui/camera/CameraIcon';
+import { HappyBot } from '../ui/happyBot/HappyBot';
 import {
     Table,
     Thead,
@@ -22,8 +23,9 @@ import {
   export function UploadImage({ user }) {
     const [selectedImage, setSelectedImage] = useState(null);
     const [route, setRoute] = useState('upload')
-    const [imgBitt, setImgBitt] = useState(null);
+    const [imgBit, setImgBit] = useState(null);
     const [imgResults, setImgResults] = useState([]);
+    const [alertMessage, setAlertMessage] = useState('');
 
     const handleButtonClick = () => {
         document.querySelector('input[type="file"]').click();
@@ -31,17 +33,16 @@ import {
 
     const handleNewUpload = () => {
         setSelectedImage(null);
-        setImgBitt(null);
+        setImgBit(null);
         setRoute('upload');
+        setAlertMessage('');
     };
 
     const handleSubmit = async () => {
-        if (!imgBitt) {
-          console.log("No image to submit");
+        if (!imgBit) {
           return;
         }
-        console.log('submitting', imgBitt);
-        onSubmit(imgBitt);
+        onSubmit(imgBit);
       };
 
     const capturePhoto = () =>  {
@@ -49,111 +50,118 @@ import {
     }
 
     const onSubmit = async () => {
-        const PAT = '';
-        const USER_ID = '';   
-        const APP_ID = 'SeeFood';
-        const IMAGE_BYTES_STRING = imgBitt.slice(23);
-
-        const raw = JSON.stringify({
-            "user_app_id": {
-                "user_id": USER_ID,
-                "app_id": APP_ID
-            },
-            "inputs": [
-                {
-                    "data": {
-                        "image": {
-                            "base64": IMAGE_BYTES_STRING
-                        }
-                    }
-                }
-            ]
-        }); 
-
-        const happyAI = (result) => {
-            let start = result.lastIndexOf('hot dog');
-            let hotDogScore = (result.slice(start + 17, start + 20) * 10);
-            const json = {
-                id: `${user.id}`,
-                points: hotDogScore.toString(),
-            };
-            setRoute('submitted');
-            fetch('http://localhost:3000/image-ranking', {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(json),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                console.log('Success:', data);
-              })
-              .catch((error) => {
-                console.error('Error:', error);
-              });
-          };
-
-          const normalAi = () => {
-            const json = {
-                id: `${user.id}`,
-                points: "1",
-            };
-            setRoute('submitted');
-            fetch('http://localhost:3000/image-ranking', {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(json),
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                console.log('Success:', data);
-              })
-              .catch((error) => {
-                console.error('Error:', error);
-              });
-          };
-
-
+        if (!imgBit) {
+          console.log('no image')
+          return;
+        }
+        const IMAGE_BYTES_STRING = imgBit;
         const requestOptions = {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': `Key ${PAT}`  
-            },
-            body: raw
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          mode: 'cors',
+          body: JSON.stringify({ image: { content: IMAGE_BYTES_STRING } })
         };
-        
         try {
-            const response = await fetch(`https://api.clarifai.com/v2/models/food-item-recognition/versions/1d5fd481e0cf4826aa72ec3ff049e044/outputs`, requestOptions);
+          console.log('requestOptions', requestOptions)
+          const response = await fetch('http://localhost:3000/image-bit', requestOptions);
+          if (!response.ok) {
+            setAlertMessage(`An HTTP error occurred: ${response.status}`);
+          } else {
             const result = await response.text();
-            const resultClean = CleanApiResponse(result) 
+            console.log('result', result)
+            const resultClean = await CleanApiResponse(result);
             setImgResults(resultClean)
-            result.includes('hot dog') ? happyAI(result) : normalAi()
+            const hotDogScore = calculateHotDogScore(resultClean);
+            if (hotDogScore !== null) {
+              happyAI(hotDogScore);
+            } else {
+              normalAi();
+            }
+          }
         } catch (error) {
-            console.log('error', error);
+          console.log('error', error);
+          setAlertMessage(`An error occurred: ${error}`);
         }
-    };
+      };
 
-    const handleFileInputChange = (event) => {
-        const file = event.target.files[0];
-        console.log(file);
-        if (file.type !== "image/jpeg") {
-            alert('Please select a .jpg file')
-            return;
-        }   else { 
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                const dataUrl = reader.result;
-                setImgBitt(dataUrl);
-            };
-            reader.readAsDataURL(file);
-            setSelectedImage(file)
-            setRoute('notSubmitted')
-        }
+const calculateHotDogScore = (concepts) => {
+    const hotDogConcept = concepts.find((concept) => concept.name === 'hot dog');
+    if (!hotDogConcept) {
+      return null;
+    }
+    let hotDogScore = hotDogConcept.value * 100;
+    const goldenRatio = (1 + Math.sqrt(5)) / 2;
+    hotDogScore *= goldenRatio;
+    hotDogScore = Math.round(hotDogScore * 10) % 100 + 1;
+    return hotDogScore;
+  };
+  
+        
+
+  const happyAI = (hotDogScore) => {
+    const json = {
+      id: `${user.id}`,
+      points: hotDogScore.toString(),
     };
+    setRoute('submitted');
+    fetch('http://localhost:3000/image-ranking', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(json),
+    })
+    .then((response) => CleanApiResponse(response.json()))
+    .then((data) => {
+      setAlertMessage(`Here's ${hotDogScore} points.`)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  };
+  
+  const normalAi = () => {
+    const json = {
+      id: `${user.id}`,
+      points: "1",
+    };
+    setRoute('submitted');
+    fetch('http://localhost:3000/image-ranking', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(json),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  };
+
+
+
+  const handleFileInputChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file);
+    if (file.type !== "image/jpeg") {
+        alert('Please select a .jpg file')
+        return;
+    }   else { 
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            const dataUrl = reader.result;
+            setImgBit(dataUrl.slice(23));
+            console.log('dataUrl', dataUrl)
+        };
+        reader.readAsDataURL(file);
+        setSelectedImage(file)
+        setRoute('notSubmitted')
+    }
+};
 
     return (
         <Flex
@@ -163,71 +171,92 @@ import {
             justifyContent='center'
         >
             {route === 'camera' && (
-                <Box maxW='1000px' >
-                <Camera handleSubmit={handleSubmit} onSubmit={onSubmit} selectedImage={selectedImage} setSelectedImage={setSelectedImage} imgBitt={imgBitt} setImgBitt={setImgBitt} />
+                <Box maxW='1000px'>
+                <Camera handleSubmit={handleSubmit} onSubmit={onSubmit} selectedImage={selectedImage} setSelectedImage={setSelectedImage} imgBitt={imgBit} setImgBitt={setImgBit} />
                 </Box>
             )}
             {route === 'notSubmitted' && (
-                <Box minW={400} p={5}>
-                    <Box maxW={300} border='1px solid black' borderRadius='.5em' className='imageBox' align='flex-start'>
-                        <img
-                            className='userImage'
-                            alt="uploaded"
-                            src={URL.createObjectURL(selectedImage)}
-                        />
-                    </Box>
-                    <Box position='relative' bottom={0} pt={5} justify='center' align='center' >
-                        <ButtonGroup verticalAlign='bottom' gap={2}>
-                            <Button
-                                leftIcon={<Garbage />}
-                                _hover={{ backgroundColor: '#F65223' }}
-                                onClick={() => {
-                                    setSelectedImage(null);
-                                    setImgBitt(null);
-                                    setRoute('upload')
-                                }}
-                            >
-                                Remove
-                            </Button>
-                            <Button
-                                onClick={onSubmit}
-                                leftIcon={<Eye />}
-                                type='submit'
-                                name='submit'
-                            >
-                                Submit
-                            </Button>
-                        </ButtonGroup>
-                    </Box>
+                <Box p={[1, 2, 5]} minW={['100%', 400]}>
+                <Box maxW={300} border='1px solid black' borderRadius='.5em' className='imageBox' align='flex-start'>
+                    <img
+                    className='userImage'
+                    alt="uploaded"
+                    src={URL.createObjectURL(selectedImage)}
+                    />
+                </Box>
+                <Box w='100%' position='relative' bottom={0} pt={[2, 3, 5]} justify='center' align='center'>
+                    <ButtonGroup w='90%' verticalAlign='bottom' mt={3} gap={2}>
+                    <Button
+                        theme={theme}
+                        leftIcon={<Garbage />}
+                        _hover={{ backgroundColor: '#F65223' }}
+                        onClick={() => {
+                        setSelectedImage(null);
+                        setImgBit(null);
+                        setRoute('upload')
+                        }}
+                    >
+                        Remove
+                    </Button>
+                    <Button
+                        theme={theme}
+                        onClick={onSubmit}
+                        leftIcon={<Eye />}
+                        type='submit'
+                        name='submit'
+                    >
+                        Submit
+                    </Button>
+                    </ButtonGroup>
+                </Box>
                 </Box>
             )}
 
             {route === 'submitted' && (
-                <Box minW={400} p={5}>
-                    <Box maxW={400} border='1px solid black' borderRadius='.5em' className='imageBox' align='flex-start'>
+                <Box className='subContainer' minW={400} p={5} position='relative'>
+                    <Box maxW={400} border='1px solid black' borderRadius='.5em' className='imageBox' align='flex-start' position='relative'>
                         <img
-                            className='userImage'
-                            alt="uploaded"
-                            src={URL.createObjectURL(selectedImage)}
+                        className='userImage'
+                        alt="uploaded"
+                        src={URL.createObjectURL(selectedImage)}
                         />
                     </Box>
-                    <TableContainer pt={10}>
+                    {alertMessage && (
+                        <Alert 
+                        justifyContent='center'
+                        textAlign={'left'}
+                        mt={5} 
+                        mb={2} 
+                        border='1px' 
+                        borderRadius=".5em" 
+                        backgroundColor={'#FFFFF0'}
+                        >
+                        <Box position={'absolute'} left={5} bottom={3} >
+                            <HappyBot/>
+                        </Box>
+                        <Box ml={4}>
+                            <AlertTitle >Ooh la la! What a HOT dog!!</AlertTitle>
+                            <AlertDescription maxWidth='sm'>{alertMessage}</AlertDescription>
+                        </Box>
+                        </Alert>
+                    )}
+                    <TableContainer pt={10} mb={10}>
                         <Table variant='simple' size='sm'>
-                            <TableCaption></TableCaption>
-                            <Thead>
+                        <TableCaption></TableCaption>
+                        <Thead>
                             <Tr>
-                                <Th>Prediction</Th>
-                                <Th isNumeric>Certainty</Th>
+                            <Th>Prediction</Th>
+                            <Th isNumeric>Certainty</Th>
                             </Tr>
-                            </Thead>
-                            <>
+                        </Thead>
+                        <>
                             <ResultList imgResults={imgResults}/>
-                            </>
+                        </>
                         </Table>
-                        </TableContainer>
-                    <Box position='relative' bottom={0} pt={5} justify='center' align='center' >
+                    </TableContainer>
+                    <Box position='absolute' bottom={0} pt={5} justify='center' align='center' w='100%'>
                         <ButtonGroup align='center' verticalAlign='bottom' gap={2}>
-                            <Button
+                        <Button
                                 theme={theme}
                                 w={225}
                                 textAlign='center'
@@ -237,9 +266,9 @@ import {
                             >
                                 Upload New Image
                             </Button>
-                        </ButtonGroup>
-                    </Box>
-                </Box>
+                            </ButtonGroup>
+                        </Box>
+                        </Box>
             )}
                                   
         {route === 'upload' && (
@@ -251,6 +280,7 @@ import {
 
             <ButtonGroup verticalAlign='bottom' gap={2}>
                 <Button
+                    theme={theme}
                     leftIcon={<CameraIcon />}
                     _hover={{ backgroundColor: '#F65223' }}
                     onClick={capturePhoto}

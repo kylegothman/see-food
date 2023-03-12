@@ -2,17 +2,20 @@ import React from "react";
 import './button.css';
 import {
     ButtonGroup,
+    Button,
 } from '@chakra-ui/react';
+import theme from '../../../themes/components/button.tsx';
+
 
 export default function NavButton({ onRouteChange, route }) {
     console.log(route)
     return (
         <ButtonGroup>
-            <button className='bbutton' onClick={() => onRouteChange('signout')}>Sign Out</button>
+            <Button className='bbutton' theme={theme} _hover={{ backgroundColor: '#F65223' }} onClick={() => onRouteChange('signout')}>Sign Out</Button>
             <>
             { route === 'profile' 
-            ? <button className='bbutton' onClick={() => onRouteChange('home')}>Home</button> 
-            : <button className='bbutton' onClick={() => onRouteChange('profile')}>Profile</button> 
+            ? <Button className='bbutton' theme={theme} onClick={() => onRouteChange('home')}>Home</Button> 
+            : <Button className='bbutton' theme={theme} onClick={() => onRouteChange('profile')}>Profile</Button> 
             }
             </>
         </ButtonGroup>  

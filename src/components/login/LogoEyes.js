@@ -39,8 +39,8 @@ export default function LogoEyes() {
     <Box className="main" >
       <img id="anchor" ref={anchorRef} src={sf_logo} alt="logo" />
       <Box id="eyes">
-        <img height='35px' width='35px' className="eye" src={logo_eyes} alt="pupil" style={{ top: 41, right: 79, transform: `rotate(${270 + angleDeg}deg)`}} />
-        <img height='35px' width='35px' className="eye" src={logo_eyes} alt="pupil" style={{ top: 41, right: 46, transform: `rotate(${270 + angleDeg}deg)` }} />
+        <img height='35px' width='35px' className="eye" src={logo_eyes} alt="pupil" style={{ top: 35, right: 68, transform: `rotate(${270 + angleDeg}deg)`}} />
+        <img height='35px' width='35px' className="eye" src={logo_eyes} alt="pupil" style={{ top: 35, right: 38, transform: `rotate(${270 + angleDeg}deg)` }} />
       </Box>
     </Box>
   );
