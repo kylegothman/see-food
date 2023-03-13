@@ -20,7 +20,7 @@ export default function Login({ onRouteChange, loadProfile }) {
     const onSubmit = async (data) => {
         try {
             console.log(data);
-            const response = await fetch('http://localhost:3000/signin', {
+            const response = await fetch('https://shrouded-hollows-05651.herokuapp.com/signin', {
                 method:'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({data})

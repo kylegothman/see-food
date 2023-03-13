@@ -63,7 +63,7 @@ import {
         };
         try {
           console.log('requestOptions', requestOptions)
-          const response = await fetch('http://localhost:3000/image-bit', requestOptions);
+          const response = await fetch('https://shrouded-hollows-05651.herokuapp.com/image-bit', requestOptions);
           if (!response.ok) {
             setAlertMessage(`An HTTP error occurred: ${response.status}`);
           } else {
@@ -84,17 +84,17 @@ import {
         }
       };
 
-const calculateHotDogScore = (concepts) => {
-    const hotDogConcept = concepts.find((concept) => concept.name === 'hot dog');
-    if (!hotDogConcept) {
-      return null;
-    }
-    let hotDogScore = hotDogConcept.value * 100;
-    const goldenRatio = (1 + Math.sqrt(5)) / 2;
-    hotDogScore *= goldenRatio;
-    hotDogScore = Math.round(hotDogScore * 10) % 100 + 1;
-    return hotDogScore;
-  };
+      const calculateHotDogScore = (concepts) => {
+        const hotDogConcept = concepts.slice(0, 8).find((concept) => concept.name === 'hot dog');
+        if (!hotDogConcept) {
+          return null;
+        }
+        let hotDogScore = hotDogConcept.value * 100;
+        const goldenRatio = (1 + Math.sqrt(5)) / 2;
+        hotDogScore *= goldenRatio;
+        hotDogScore = Math.round(hotDogScore * 10) % 100 + 1;
+        return hotDogScore;
+      };
   
         
 
@@ -104,7 +104,7 @@ const calculateHotDogScore = (concepts) => {
       points: hotDogScore.toString(),
     };
     setRoute('submitted');
-    fetch('http://localhost:3000/image-ranking', {
+    fetch('https://shrouded-hollows-05651.herokuapp.com/image-ranking', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -126,7 +126,7 @@ const calculateHotDogScore = (concepts) => {
       points: "1",
     };
     setRoute('submitted');
-    fetch('http://localhost:3000/image-ranking', {
+    fetch('https://shrouded-hollows-05651.herokuapp.com/image-ranking', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -134,9 +134,6 @@ const calculateHotDogScore = (concepts) => {
       body: JSON.stringify(json),
     })
     .then((response) => response.json())
-    .then((data) => {
-      console.log('Success:', data);
-    })
     .catch((error) => {
       console.error('Error:', error);
     });
@@ -146,7 +143,6 @@ const calculateHotDogScore = (concepts) => {
 
   const handleFileInputChange = (event) => {
     const file = event.target.files[0];
-    console.log(file);
     if (file.type !== "image/jpeg") {
         alert('Please select a .jpg file')
         return;
@@ -155,7 +151,6 @@ const calculateHotDogScore = (concepts) => {
         reader.onloadend = () => {
             const dataUrl = reader.result;
             setImgBit(dataUrl.slice(23));
-            console.log('dataUrl', dataUrl)
         };
         reader.readAsDataURL(file);
         setSelectedImage(file)

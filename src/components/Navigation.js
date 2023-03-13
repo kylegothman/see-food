@@ -33,10 +33,8 @@ function Navbar({ onRouteChange, isSignedIn, route }) {
     <Flex className='navFlex' bg='yellow.50' pt={5} minWidth='max-content' justify='space-between' gap='2'>
       <Box align='right'>
         {isSignedIn && (
-          <Box>
-            <a href='/'>
+          <Box _hover={{cursor: 'pointer'}} onClick={() => onRouteChange('home')}>
               <SeeFoodLogo />
-            </a>
           </Box>
         )}
       </Box>

@@ -9,13 +9,14 @@ export function RegisterCard({ onRouteChange, loadUser }) {
   const { register, handleSubmit, setValue } = useForm();
 
   const onSubmit = (data) => {
-    fetch('http://localhost:3000/register', {
+    fetch('https://shrouded-hollows-05651.herokuapp.com/register', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ data }),
     })
       .then((response) => {
         if (!response.ok) {
+            console.log(data)
           throw new Error(`This is an HTTP error: The status is ${response.status}`);
         } else {
           console.log('new user created');

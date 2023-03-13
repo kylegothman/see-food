@@ -20,7 +20,7 @@ export default function App() {
   async function onRouteChange(route) {
     if (route === 'signout') {
       try {
-        const response = await fetch(`http://localhost:3000/signout`, {
+        const response = await fetch(`https://shrouded-hollows-05651.herokuapp.com/signout`, {
         method: 'post',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -45,7 +45,7 @@ export default function App() {
     } else if (route === 'profile') {
       if (user.id) {
         try {
-          const response = await fetch(`http://localhost:3000/profile/${user.id}`, {
+          const response = await fetch(`https://shrouded-hollows-05651.herokuapp.com/profile/${user.id}`, {
             method: 'get',
             headers: { 'Content-Type': 'application/json' }
           });
