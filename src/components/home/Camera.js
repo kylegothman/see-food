@@ -11,20 +11,20 @@ export function Camera({handleSubmit, onSubmit, setImgBitt, imgBitt, setSelected
   const photoRef = useRef(null);
   const [hasPhoto, setHasPhoto] = useState(false);
   const [imgBit, setImgBit] = useState(null);
-  const getVideo = () => {
-    navigator.mediaDevices
-      .getUserMedia({
-        video: { width: 1080, height: 1920 },
-      })
-      .then((stream) => {
-        let video = videoRef.current;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch((err) => {
-        console.error(err);
+  const getVideo = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment", width: 1080, height: 1920 },
       });
+      let video = videoRef.current;
+      video.srcObject = stream;
+      video.setAttribute("playsInline", true);
+      video.play();
+    } catch (err) {
+      console.error(err);
+    }
   };
+
 
   useEffect(() => {
     getVideo();
@@ -56,7 +56,6 @@ export function Camera({handleSubmit, onSubmit, setImgBitt, imgBitt, setSelected
       console.error(error);
     }
   };
-  
   
   const retakePhoto = () => {
     setHasPhoto(false);

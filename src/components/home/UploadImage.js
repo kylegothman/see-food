@@ -17,6 +17,7 @@ import {
     Th,
     TableCaption,
     TableContainer,
+    useBreakpointValue,
   } from '@chakra-ui/react'
 
 
@@ -30,6 +31,8 @@ import {
     const handleButtonClick = () => {
         document.querySelector('input[type="file"]').click();
     };
+
+    const isMobile = useBreakpointValue({ base: true, md: false });
 
     const handleNewUpload = () => {
         setSelectedImage(null);
@@ -140,23 +143,50 @@ import {
   };
 
 
+    const handleFileInputChange = (event) => {
+        const file = event.target.files[0];
+        if (file.type !== "image/jpeg") {
+            alert('Please select a .jpg file')
+            return;
+        } else {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 400;
+                    const MAX_HEIGHT = 400;
+                    let width = img.width;
+                    let height = img.height;
 
-  const handleFileInputChange = (event) => {
-    const file = event.target.files[0];
-    if (file.type !== "image/jpeg") {
-        alert('Please select a .jpg file')
-        return;
-    }   else { 
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            const dataUrl = reader.result;
-            setImgBit(dataUrl.slice(23));
-        };
-        reader.readAsDataURL(file);
-        setSelectedImage(file)
-        setRoute('notSubmitted')
-    }
-};
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const dataUrl = canvas.toDataURL('image/jpeg');
+                    setImgBit(dataUrl.slice(23));
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+            setSelectedImage(file)
+            setRoute('notSubmitted')
+        }
+    };
 
     return (
         <Flex
@@ -180,7 +210,10 @@ import {
                     />
                 </Box>
                 <Box w='100%' position='relative' bottom={0} pt={[2, 3, 5]} justify='center' align='center'>
-                    <ButtonGroup w='90%' verticalAlign='bottom' mt={3} gap={2}>
+                <ButtonGroup   
+                        verticalAlign="bottom"
+                        gap={2}
+                        flexDir={isMobile ? "column" : "row"}>
                     <Button
                         theme={theme}
                         leftIcon={<Garbage />}
@@ -266,38 +299,46 @@ import {
                         </Box>
             )}
                                   
-        {route === 'upload' && (
-        <Flex boxSize='md' minW='400px' minH='400px' alignItems='center' justifyContent='center' direction='column' p={5}>
-            <Box pt={25} pb={5} textAlign='center'>
-            <h1>Upload an image to the AI</h1>
-            </Box>
-            <Box position='relative' bottom={0} top={20}>
-
-            <ButtonGroup verticalAlign='bottom' gap={2}>
-                <Button
-                    theme={theme}
-                    leftIcon={<CameraIcon />}
-                    _hover={{ backgroundColor: '#F65223' }}
-                    onClick={capturePhoto}
-                >
-                    Camera
-                </Button>
-                <input
-                    type="file"
-                    style={{ outline: "none", display: "none" }}
-                    onChange={handleFileInputChange}
-                />
-                <Button
-                    theme={theme}
-                    w='175px'
-                    textAlign='center'
-                    _hover={{ backgroundColor: '#40C7CA', color: '#FFFFF0' }}
-                    leftIcon={<UploadIcon />}
-                    onClick={handleButtonClick}
-                >
-                    Upload Image
-                </Button>
-            </ButtonGroup>
+            {route === 'upload' && (
+            <Flex boxSize="md"
+                    minW="400px"
+                    minH="400px"
+                    alignItems="center"
+                    justifyContent="center"
+                    direction="column"
+                    p={5}>
+                <Box pt={25} pb={5} textAlign='center'>
+                    <h1>Upload an image to the AI</h1>
+                </Box>
+                <Box position="relative" bottom={0} top={20}>
+                    <ButtonGroup   
+                        verticalAlign="bottom"
+                        gap={2}
+                        flexDir={isMobile ? "column" : "row"}>
+                            <Button
+                                theme={theme}
+                                leftIcon={<CameraIcon />}
+                                _hover={{ backgroundColor: '#F65223' }}
+                                onClick={capturePhoto}
+                            >
+                                Camera
+                            </Button>
+                            <input
+                                type="file"
+                                style={{ outline: "none", display: "none" }}
+                                onChange={handleFileInputChange}
+                            />
+                            <Button
+                                theme={theme}
+                                w='175px'
+                                textAlign='center'
+                                _hover={{ backgroundColor: '#40C7CA', color: '#FFFFF0' }}
+                                leftIcon={<UploadIcon />}
+                                onClick={handleButtonClick}
+                            >
+                                Upload Image
+                            </Button>
+                </ButtonGroup>
             </Box>
         </Flex>
         )}
