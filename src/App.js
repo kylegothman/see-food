@@ -96,9 +96,9 @@ export default function App() {
   }
 
   return (
-    <>
+    <div className='rootContainer'>
       <Navbar isSignedIn={isSignedIn} route={route} onRouteChange={onRouteChange} />
-      <Box bg='yellow.50' mt={0} p={2}>
+      <Box justify='center' className='bodyContainer' bg='yellow.50' mt={0} p={2}>
         {route === 'home' ? (
           <Home user={user} setUser={setUser} />
         ) : route === 'profile' ? (
@@ -109,6 +109,6 @@ export default function App() {
           <RegisterCard loadUser={loadUser} onRouteChange={onRouteChange} />
         )}
       </Box>
-    </>
+    </div>
   );
 }

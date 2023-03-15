@@ -1,8 +1,9 @@
 .Homecard {
-    min-width: 390px;
+    min-width: 355px;
     min-height: 555px; 
     background-color: #FCD035;
     box-shadow: 2px 5px 0 0 black;
+    justify-content: center;
     text-align: center;
     color: black;
     border-radius: .5em;

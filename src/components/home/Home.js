@@ -1,15 +1,15 @@
 import React from "react";
 import { Center, Box } from '@chakra-ui/react';
 import './home.css';
-import { UploadImage } from './UploadImage';
+import UploadImage from './UploadImage';
 
-export default function Home(props) {
-  const { user } = props;
+export default function Home({user}) {
   
   return (
     <Box
       bg='yellow.50'
       p={{ base: '1em', md: '2em' }}
+      className='homeContainer'
     >
       <Center>
         <Box 

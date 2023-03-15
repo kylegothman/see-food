@@ -43,7 +43,7 @@ const theme = extendTheme({
       defaultProps: {
         size: 'md',
         variant: 'solid',
-        colorScheme: 'gray',
+        bg: '#FFFFF0',
       },
     },
   },

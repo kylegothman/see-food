@@ -66,7 +66,6 @@ export default function Login({ onRouteChange, loadProfile }) {
                         <Button 
                         theme={theme}
                         mt={15}
-                        w='175px'
                         type='submit' 
                         name='submit'>
                             Submit

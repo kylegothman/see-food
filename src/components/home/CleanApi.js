@@ -1,4 +1,4 @@
-export function CleanApiResponse(response) {
+export async function CleanApiResponse(response) {
   try {
     const data = JSON.parse(response);
     const concepts = data?.outputs?.[0]?.data?.concepts;
