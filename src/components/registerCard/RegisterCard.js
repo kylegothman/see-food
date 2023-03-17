@@ -45,7 +45,7 @@ export function RegisterCard({ onRouteChange, loadUser }) {
         <Box
           className="card"
           maxWidth={400}
-          p={12}
+          p={10}
           _hover={{
             transform: 'translateY(-4px) translateX(-2px)',
             backgroundColor: '#FCD035',

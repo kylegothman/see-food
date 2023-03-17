@@ -1,0 +1,43 @@
+.navBar {
+    background-color: #FFFFF0;
+    height: 60px
+  }
+
+.navFlex {
+background-color: #fffff0;
+padding-top: 5px;
+justify-content: space-between;
+gap: 2px;
+min-width: max-content;
+}
+
+.menuButton {
+justify-content: center;
+background-color: #fffff0;
+margin-right: 5px;
+border: 1px solid black;
+max-height: 40px;
+border-radius: 10em;
+padding: 0.5em 16px;
+transition: all 0.3s ease-in-out;
+}
+
+.menuButton:hover {
+background-color: #f65223;
+color: #fffff0;
+transform: translateY(-4px) translateX(-2px);
+box-shadow: 2px 5px 0 0 black;
+}
+
+.menuList {
+background-color: #FFFFF0;
+padding-top: 2px;
+padding-bottom: 2px;
+border-radius: 0.5em;
+border: 1px solid black;
+}
+
+.menuItem {
+border-radius: 0.5em;
+background-color: #fffff0;
+}

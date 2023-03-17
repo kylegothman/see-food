@@ -38,11 +38,11 @@ export default function Login({ onRouteChange, loadProfile }) {
     }
 
     return (
-        <Center bg='yellow.50'>
+        <Center h='100vh - 60px' bg='yellow.50'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Box 
                     className='loginCard' 
-                    maxWidth={400} p={12}
+                    maxWidth={400} p={10}
                     _hover={{ 
                         transform: 'translateY(-4px) translateX(-2px)',
                         backgroundColor: '#FCD035',

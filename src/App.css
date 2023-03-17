@@ -11,25 +11,36 @@
   font-weight: normal;
   src: local('BungeeShade'), url('./assets/BungeeShade-Regular.ttf') format('ttf');
 }
-.navBar {
-  background-color: #FFFFF0;
-}
 
 .logo {
     font-family: 'From Cartoon Blocks';
     padding: 25px;
     color: black;
-    letter-spacing: .2vh;
+}
+
+.navBar {
+  background-color: #FFFFF0;
+  height: 60px
 }
 
 .rootContainer {
   display: flex;
   flex-direction: column;
-  width: 100%;
   min-height: 100vh;
 }
 
-html {
+.bodyContainer {
+  flex-grow: 1;
+  min-height: calc(100vh - 60px);
+  width: 100%;
+  overflow-y: auto;
+  position: relative;
+  margin-top: 0px;
+}
+
+html, body {
+  min-height: 100vh;
+  width: 100vw;
   background-color: #FFFFF0;
 }
 

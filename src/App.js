@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import Navbar from './components/Navigation';
+import Navbar from './components/ui/navigation/Navigation';
 import { RegisterCard } from './components/registerCard/RegisterCard';
 import Home from './components/home/Home';
 import Login from './components/login/Login';
 import Profile from './components/profile/Profile';
+import About from './components/about/About';
 import { Box } from '@chakra-ui/react';
 
 export default function App() {
@@ -21,25 +22,25 @@ export default function App() {
     if (route === 'signout') {
       try {
         const response = await fetch(`https://shrouded-hollows-05651.herokuapp.com/signout`, {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' }
-      });
-      if (!response.ok) {
-        throw new Error(`This is an HTTP error: The status is ${response.status}`);
-      } else {
-        setIsSignedIn(false);
-        setUser({
-          id: '',
-          name: '',
-          username: '',
-          score: 0,
-          joined: ''
+          method: 'post',
+          headers: { 'Content-Type': 'application/json' },
         });
-        console.log(user)
+        if (!response.ok) {
+          throw new Error(`This is an HTTP error: The status is ${response.status}`);
+        } else {
+          setIsSignedIn(false);
+          setUser({
+            id: '',
+            name: '',
+            username: '',
+            score: 0,
+            joined: '',
+          });
+          console.log(user);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
     } else if (route === 'home') {
       setIsSignedIn(true);
     } else if (route === 'profile') {
@@ -47,7 +48,7 @@ export default function App() {
         try {
           const response = await fetch(`https://shrouded-hollows-05651.herokuapp.com/profile/${user.id}`, {
             method: 'get',
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
           });
           if (!response.ok) {
             throw new Error(`This is an HTTP error: The status is ${response.status}`);
@@ -67,9 +68,9 @@ export default function App() {
         name: '',
         username: '',
         score: 0,
-        joined: ''
+        joined: '',
       });
-      console.log(user);    
+      console.log(user);
     }
   
     setRoute(route);
@@ -98,17 +99,20 @@ export default function App() {
   return (
     <div className='rootContainer'>
       <Navbar isSignedIn={isSignedIn} route={route} onRouteChange={onRouteChange} />
-      <Box justify='center' className='bodyContainer' bg='yellow.50' mt={0} p={2}>
+      <div className='bodyContainer' bg='yellow.50' p={2}>
         {route === 'home' ? (
           <Home user={user} setUser={setUser} />
         ) : route === 'profile' ? (
           <Profile user={user} onRouteChange={onRouteChange} />
         ) : route === 'signin' ? (
           <Login loadProfile={loadProfile} onRouteChange={onRouteChange} />
-        ) : (
+        ) : route === 'register' ? (
           <RegisterCard loadUser={loadUser} onRouteChange={onRouteChange} />
-        )}
-      </Box>
+        ) : route === 'about' ? (
+          <About onRouteChange={onRouteChange} />
+        ) : <RegisterCard loadUser={loadUser} onRouteChange={onRouteChange} />
+          }
+      </div>
     </div>
   );
 }

@@ -1,0 +1,20 @@
+.videoContainer {
+    display: flex;
+    justify-content: center;
+    padding-top: 15vh;
+    height: 100vh;
+    background-color: #FFFFF0;
+  }
+  
+  .responsiveIframe {
+    width: 100%;
+    height: calc(100vw * 9 / 16);
+    max-width: 560px;
+    max-height: 315px;
+  }
+  
+  @media screen and (max-width: 767px) {
+    .responsiveIframe {
+      height: 56.25vw;
+    }
+  }
